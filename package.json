@@ -1,0 +1,13 @@
+{
+  "name": "geny",
+  "version": "0.0.1",
+  "description": "Geny is a code generator for angular2 projects.",
+  "keywords": [
+    "code",
+    "generator",
+    "angular2",
+    "generator"
+  ],
+  "author": "filip.lauc93@gmail.com",
+  "license": "MIT"
+}
