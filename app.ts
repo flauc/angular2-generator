@@ -12,7 +12,7 @@ function lower(string) { return string.charAt(0).toLowerCase() + string.slice(1)
 function create(arguments: string[]) {
     let type: string,                                                   // The type of the file to create.. will be equal to arguments[0]
         typeFileLoc: string,                                            // The location of the file to read from
-        name: string = arguments[1],                                    // Name of the file to create
+        name: string,                                                   // Name of the file to create
         newFile: string,                                                // Location of the new file
         fileVars: string[],                                             // Variables to change depending on the arguments
         readData: string,                                               // The data from the read file
@@ -21,15 +21,20 @@ function create(arguments: string[]) {
 
     switch(arguments[0]) {
         case '-c':
+        case '-component':
             type = 'component';
-            typeFileLoc = `${genyLoc}/codeFiles/${type}.ts`;
+            name = arguments[1];
             fileVars = ['geny-' + name.toLowerCase(), capitalize(name) + capitalize(type)];
             break;
         case '-s':
+        case '-service':
             type = 'service';
-            break
+            name = arguments[1];
+            fileVars = [capitalize(name) + capitalize(type)];
+            break;
     }
 
+    typeFileLoc = `${genyLoc}/codeFiles/${type}.ts`;
     newFile = location + '/' + lower(name) + '.' + type + '.ts';
 
     fs.readFile(typeFileLoc, 'utf8', (err, data)=> {
