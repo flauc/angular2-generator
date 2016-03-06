@@ -21,7 +21,8 @@ function create(arguments: string[]) {
         init: boolean = false,
 
         // Service specific
-        addToBoot: boolean = false;
+        addToBoot: boolean = false,
+        bootLocation: string;
 
     switch(arguments[0]) {
         case '-i':
@@ -38,6 +39,17 @@ function create(arguments: string[]) {
             type = 'service';
             fileVars = [capitalize(name) + capitalize(type)];
             addToBoot = arguments.indexOf('-b') > -1;
+            if(addToBoot) {
+                // Check if a location was provided
+                if(arguments[arguments.indexOf('-b')+1] && arguments[arguments.indexOf('-b')+1][0] != '-') bootLocation = arguments[arguments.indexOf('-b')+1];
+                else {
+                    try {
+                        fs.lstatSync(`${location}/boot.ts`);
+                        bootLocation = `${location}/boot.ts`;
+                    }
+                    catch(e) { console.log(e) }
+                }
+            }
             break;
     }
 
@@ -66,6 +78,25 @@ function create(arguments: string[]) {
 
             fs.writeFile(newFile, writeData, (err)=> { if (err) throw err; });
         });
+
+        if(addToBoot && bootLocation) {
+            fs.readFile(bootLocation, 'utf8', (err,data)=> {
+                for(let i = 0; i < data.length; i++) {
+                    let toWrite = data;
+                    if(data[i] == '/' && data[i+1] == '/') {
+                        //let temp = '';
+                        //for(let a = 0; a < 7; a++) temp += data[i+a];
+                        if(data.substr(i, 7) == '//~geny') {
+                            //toWrite = toWrite.substr(0,i + 7) + capitalize(name) + capitalize(type) +
+                            //console.log(toWrite);
+                            var b = fs.createWriteStream(bootLocation, {encoding: 'utf8', start:i});
+
+                            fs.write(bootLocation, 'proba', i);
+                        }
+                    }
+                }
+            })
+        }
     }
 }
 
