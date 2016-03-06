@@ -80,21 +80,32 @@ function create(arguments: string[]) {
         });
 
         if(addToBoot && bootLocation) {
+
+            let doWrite = false,
+                toAdd = capitalize(name) + capitalize(type),
+                times = 0,
+                fileLocation = '.' + newFile.slice(location.toString().length),
+                toWrite;
+
             fs.readFile(bootLocation, 'utf8', (err,data)=> {
                 for(let i = 0; i < data.length; i++) {
-                    let toWrite = data;
-                    if(data[i] == '/' && data[i+1] == '/') {
-                        //let temp = '';
-                        //for(let a = 0; a < 7; a++) temp += data[i+a];
-                        if(data.substr(i, 7) == '//~geny') {
-                            //toWrite = toWrite.substr(0,i + 7) + capitalize(name) + capitalize(type) +
-                            //console.log(toWrite);
-                            var b = fs.createWriteStream(bootLocation, {encoding: 'utf8', start:i});
 
-                            fs.write(bootLocation, 'proba', i);
+                    if(data[i] == '/' && data[i+1] == '/') {
+
+                        if(data.substr(i, 7) == '//~geny' && times == 0) {
+                            doWrite = true;
+                            times += 1;
+                            toWrite = [data.slice(0, i+7), '\n' + 'import ' + '{' + toAdd + '}' + ' from ' + '"' + fileLocation + '"', data.slice(i + 7)].join('');
+                            data = toWrite;
+                        }
+
+                        else if(data.substr(i, 7) == '//~geny' && times == 1) {
+                            toWrite = [toWrite.slice(0, i+7), '\n' + '    ' + capitalize(name) + capitalize(type) + ',', data.slice(i + 7)].join('');
                         }
                     }
                 }
+
+                if(doWrite) fs.writeFile(bootLocation, toWrite, (err)=> { if (err) throw err; });
             })
         }
     }
