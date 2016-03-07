@@ -32,16 +32,17 @@ function create(arguments: string[]) {
         case '-c':
         case '-component':
             type = 'component';
-            fileVars = ['geny-' + name.toLowerCase(), capitalize(name) + capitalize(type)];
+            fileVars = ['geny-' + lower(name), capitalize(name) + capitalize(type)];
             break;
         case '-d':
         case '-directive':
             type = 'directive';
-            fileVars = ['geny-' + name.toLowerCase(), capitalize(name) + capitalize(type)];
+            fileVars = ['geny-' + lower(name), capitalize(name) + capitalize(type)];
             break;
         case '-p':
         case '-pipe':
             type = 'pipe';
+            fileVars = [lower(name), capitalize(name) + capitalize(type)];
             break;
         case '-s':
         case '-service':

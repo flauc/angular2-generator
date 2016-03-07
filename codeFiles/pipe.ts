@@ -9,7 +9,7 @@ import {Pipe, PipeTransform} from 'angular2/core';
  */
 @Pipe({name: '~'})
 export class ~ implements PipeTransform {
-    transform(value:number, args:string[]) : any {
+    transform(value:any, args:string[]) : any {
 
     }
 }
