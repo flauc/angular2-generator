@@ -34,10 +34,15 @@ function create(arguments: string[]) {
             type = 'component';
             fileVars = ['geny-' + name.toLowerCase(), capitalize(name) + capitalize(type)];
             break;
+        case '-d':
+        case '-directive':
+            type = 'directive';
+            fileVars = ['geny-' + name.toLowerCase(), capitalize(name) + capitalize(type)];
+            break;
         case '-s':
         case '-service':
             type = 'service';
-            fileVars = [capitalize(name) + capitalize(type)];
+            fileVars = ['geny-' + name.toLowerCase(), capitalize(name) + capitalize(type)];
             addToBoot = arguments.indexOf('-b') > -1;
             if(addToBoot) {
                 // Check if a location was provided
