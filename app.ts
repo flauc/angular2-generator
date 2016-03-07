@@ -39,6 +39,10 @@ function create(arguments: string[]) {
             type = 'directive';
             fileVars = ['geny-' + name.toLowerCase(), capitalize(name) + capitalize(type)];
             break;
+        case '-p':
+        case '-pipe':
+            type = 'pipe';
+            break;
         case '-s':
         case '-service':
             type = 'service';
