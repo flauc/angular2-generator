@@ -11,7 +11,7 @@ You can run commands from bash like this for now:
 This are the available commands:
 
 Command | Functionality | Required Arguments | Optional Arguments 
------------- | -------------
+------------ | ------------- | ------------- | -------------
 -c or -component | Create a component | -n (set the name of the component) | none 
 -d or -directive | Create a directive | -n (set the name of the component) | none 
 -s or -service | Create a service | -n (set the name of the component) | -b (add this argument if you want to add the service to boot.ts)
