@@ -6,13 +6,13 @@ Geny is a code generator for Angular 2 applications. It's currently very basic a
 
 You can run commands from bash like this for now:
 ```
-./app.js -c -n test
+./app.js -c NameOfTheComponent
 ```
 This are the available commands:
 
-Command | Functionality | Required Arguments | Optional Arguments 
------------- | ------------- | ------------- | -------------
--c or -component | Create a component | -n (set the name of the component) | none 
--d or -directive | Create a directive | -n (set the name of the component) | none 
--s or -service | Create a service | -n (set the name of the component) | -b (add this argument if you want to add the service to boot.ts)
--p or -pipe | Create a pipe | -n (set the name of the component) | none
+Command | Functionality | Optional Arguments 
+------------ | ------------- | -------------
+-c or -component | Create a component | none 
+-d or -directive | Create a directive | none 
+-s or -service | Create a service | -b (add this argument if you want to add the service to boot.ts)
+-p or -pipe | Create a pipe | none

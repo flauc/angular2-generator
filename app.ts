@@ -12,7 +12,7 @@ function lower(string) { return string.charAt(0).toLowerCase() + string.slice(1)
 function create(arguments: string[]) {
     let type: string,                                                   // The type of the file to create.. will be equal to arguments[0]
         typeFileLoc: string,                                            // The location of the file to read from
-        name: string = arguments[arguments.indexOf('-n') + 1],          // Name of the file to create
+        name: string = arguments[1],                                    // Name of the file to create
         newFile: string,                                                // Location of the new file
         fileVars: string[],                                             // Variables to change depending on the arguments
         readData: string,                                               // The data from the read file
