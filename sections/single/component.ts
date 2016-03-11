@@ -17,11 +17,11 @@ module.exports = {
 
         let initialComponent: string =
             `import {Component} from 'angular2/core';
+
 @Component({
     selector: '${selectorName}',
     template: '<p>We Work</p>'
 })
-
 export class ${className} {
     constructor() {}
 }`;

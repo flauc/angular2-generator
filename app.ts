@@ -45,11 +45,13 @@ function onCall(arguments: string[]): void {
         case '-s':
         case '-service':
             console.log('Creating service');
+            service.create(location, arguments[1]);
             break;
 
         case '-p':
         case '-pipe':
             console.log('Creating pipe');
+            pipe.create(location, arguments[1]);
             break;
 
         default:

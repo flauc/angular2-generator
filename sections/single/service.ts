@@ -2,15 +2,15 @@ const fs = require('fs');
 const helpers = require('../../helpers');
 
 // Required variables
-var selectorName: string,
+var className: string,
     locationPath: string;
 
 
 module.exports = {
     create: function(location: string, name: string):void {
 
-        locationPath = `${location}/${helpers.lower(name)}.pipe.ts`;
-        className = `${helpers.capitalize(name)}Pipe`;
+        locationPath = `${location}/${helpers.lower(name)}.service.ts`;
+        className = `${helpers.capitalize(name)}Service`;
 
 
         let initialComponent: string =
