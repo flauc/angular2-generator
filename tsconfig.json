@@ -8,7 +8,6 @@
     "removeComments": true
   },
   "exclude": [
-    "node_modules",
-    "codeFiles"
+    "node_modules"
   ]
 }
