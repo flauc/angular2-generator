@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const fs = require('fs');
+const component = require('./sections/single/component/component');
 
 var arguments = process.argv.slice(2),
     location = process.cwd(),
@@ -29,6 +30,7 @@ function onCall(arguments: string[]): void {
         case '-c':
         case '-component':
             console.log('Creating component');
+            component.create(location, arguments[1], false);
             break;
 
         case '-d':
@@ -182,4 +184,4 @@ function onCall(arguments: string[]): void {
 //    }
 //}
 
-create(arguments);
+onCall(arguments);
