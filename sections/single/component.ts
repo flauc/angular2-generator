@@ -1,8 +1,8 @@
 const fs = require('fs');
-const helpers = require('../../../helpers');
+const helpers = require('../../helpers');
 
 // Required variables
-let selectorName: string,
+var selectorName: string,
     className: string,
     locationPath: string;
 
@@ -10,7 +10,7 @@ let selectorName: string,
 module.exports = {
     create: function(location: string, name: string):void {
 
-        locationPath = `${location}/${helpers.lower(name)}Component.ts`;
+        locationPath = `${location}/${helpers.lower(name)}.component.ts`;
         selectorName = `geny-${name}`;
         className = `${helpers.capitalize(name)}Component`;
 

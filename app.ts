@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 const fs = require('fs');
-const component = require('./sections/single/component/component');
+const component = require('./sections/single/component');
+const directive = require('./sections/single/directive');
+const service = require('./sections/single/service');
+const pipe = require('./sections/single/pipe');
 
 var arguments = process.argv.slice(2),
     location = process.cwd(),
@@ -35,7 +38,8 @@ function onCall(arguments: string[]): void {
 
         case '-d':
         case '-directive':
-            console.log('Creating component');
+            console.log('Creating directive');
+            directive.create(location, arguments[1]);
             break;
 
         case '-s':
