@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-const fs = require('fs');
-const component = require('./sections/single/component');
-const directive = require('./sections/single/directive');
-const service = require('./sections/single/service');
-const pipe = require('./sections/single/pipe');
+const fs = require('fs'),
+    simple = require('./sections/create/simple/simple'),
+    component = require('./sections/single/component'),
+    directive = require('./sections/single/directive'),
+    service = require('./sections/single/service'),
+    pipe = require('./sections/single/pipe');
 
 var arguments = process.argv.slice(2),
     location = process.cwd(),
@@ -16,8 +17,9 @@ function onCall(arguments: string[]): void {
 
         case 'create':
 
-            switch(arguments[0]) {
+            switch(arguments[1]) {
                 case 'simple':
+                    simple.create(genyLoc, location);
                     console.log('Creating simple project');
                     break;
                 case 'routing':
