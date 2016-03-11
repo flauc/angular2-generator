@@ -30,7 +30,7 @@ function onCall(arguments: string[]): void {
         case '-c':
         case '-component':
             console.log('Creating component');
-            component.create(location, arguments[1], false);
+            component.create(location, arguments[1]);
             break;
 
         case '-d':
