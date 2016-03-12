@@ -21,7 +21,9 @@ export class ${className} {
     constructor() {}
 }`;
 
-        fs.writeFile(locationPath, initialComponent, err=> {if(err) console.log(err)});
-        console.log('Service created successfully')
+        fs.writeFile(locationPath, initialComponent, err=> {
+            if (err) console.log(err);
+            else console.log('Service created successfully!')
+        });
     }
 };

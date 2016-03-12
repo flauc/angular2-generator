@@ -3,10 +3,14 @@ const fs = require('fs'),
 
 module.exports = {
     create: function(location: string):void {
-        fs.writeFile(`${location}/app.component.ts`, files.app, err=> {if(err) console.log(err)});
-        fs.writeFile(`${location}/index.html`, files.index, err=> {if(err) console.log(err)});
-        fs.writeFile(`${location}/boot.ts`, files.boot, err=> {if(err) console.log(err)});
-        fs.writeFile(`${location}/tsconfig.json`, files.tsConfig, err=> {if(err) console.log(err)});
-        console.log('Simple app created successfully');
+
+        let app = fs.writeFile(`${location}/app.component.ts`, files.app, err=> {if(err) console.log(err)}),
+            index = fs.writeFile(`${location}/index.html`, files.index, err=> {if(err) console.log(err)}),
+            boot = fs.writeFile(`${location}/boot.ts`, files.boot, err=> {if(err) console.log(err)}),
+            tsConfig = fs.writeFile(`${location}/tsconfig.json`, files.tsConfig, err=> {if(err) console.log(err)});
+
+        Promise.all([app,index,boot,tsConfig]).then(()=> {
+            console.log('Simple app created successfully!');
+        });
     }
 };

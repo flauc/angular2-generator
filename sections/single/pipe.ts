@@ -32,7 +32,9 @@ export class ${className} implements PipeTransform {
     }
 }`;
 
-        fs.writeFile(locationPath, initialComponent, err=> {if(err) console.log(err)});
-        console.log('Pipe created successfully')
+        fs.writeFile(locationPath, initialComponent, err=> {
+            if (err) console.log(err);
+            else console.log('Pipe created successfully!')
+        });
     }
 };

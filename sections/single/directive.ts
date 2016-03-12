@@ -28,7 +28,9 @@ export class ${className} {
 
 }`;
 
-        fs.writeFile(locationPath, initialComponent, err=> {if(err) console.log(err)});
-        console.log('Directive created successfully')
+        fs.writeFile(locationPath, initialComponent, err=> {
+            if (err) console.log(err);
+            else console.log('Directive created successfully!')
+        });
     }
 };
