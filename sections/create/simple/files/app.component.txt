@@ -1,9 +1,0 @@
-import {Component} from 'angular2/core';
-
-@Component({
-    selector: 'geny-app',
-    template: '<p>We work</p>'
-})
-export class AppComponent {
-    constructor() {}
-}

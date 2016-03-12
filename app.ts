@@ -19,7 +19,7 @@ function onCall(arguments: string[]): void {
 
             switch(arguments[1]) {
                 case 'simple':
-                    simple.create(genyLoc, location);
+                    simple.create(location);
                     console.log('Creating simple project');
                     break;
                 case 'routing':

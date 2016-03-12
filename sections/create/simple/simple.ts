@@ -1,11 +1,11 @@
-const fs = require('fs');
+const fs = require('fs'),
+    files = require('./files');
 
 module.exports = {
-    create: function(genyLoc: string, curLoc: string):void {
-        fs.createReadStream(`${genyLoc}/sections/create/simple/files/app.component.txt`)
-            .pipe(fs.createWriteStream(`${curLoc}/app.component.ts`));
-
-        fs.createReadStream(`${genyLoc}/sections/create/simple/files/boot.txt`)
-            .pipe(fs.createWriteStream(`${curLoc}/boot.ts`));
+    create: function(location: string):void {
+        fs.writeFile(`${location}/app.component.ts`, files.app, err=> {if(err) console.log(err)});
+        fs.writeFile(`${location}/index.html`, files.index, err=> {if(err) console.log(err)});
+        fs.writeFile(`${location}/boot.ts`, files.boot, err=> {if(err) console.log(err)});
+        console.log('Simple app created successfully');
     }
 };
