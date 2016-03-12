@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const fs = require('fs'),
     simple = require('./sections/create/simple/simple'),
+    routing = require('./sections/create/routing/routing'),
     component = require('./sections/single/component'),
     directive = require('./sections/single/directive'),
     service = require('./sections/single/service'),
@@ -23,6 +24,7 @@ function onCall(arguments: string[]): void {
                     console.log('Creating simple project');
                     break;
                 case 'routing':
+                    routing.create(location);
                     console.log('Creating project with routing');
                     break;
                 case 'library':

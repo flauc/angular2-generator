@@ -1,4 +1,4 @@
-let index = `<html>
+var index = `<html>
     <head>
         <base href="/">
         <title>Geny App</title>
@@ -26,12 +26,12 @@ let index = `<html>
     </body>
 </html>`;
 
-let boot = `import {bootstrap} from 'angular2/platform/browser'
+var boot = `import {bootstrap} from 'angular2/platform/browser'
 import {AppComponent} from "./app.component";
 
 bootstrap(AppComponent, []);`;
 
-let app = `import {Component} from 'angular2/core';
+var app = `import {Component} from 'angular2/core';
 
 @Component({
     selector: 'geny-app',
@@ -41,7 +41,7 @@ export class AppComponent {
     constructor() {}
 }`;
 
-let tsConfig = `{
+var tsConfig = `{
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
