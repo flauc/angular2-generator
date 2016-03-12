@@ -41,8 +41,23 @@ export class AppComponent {
     constructor() {}
 }`;
 
+let tsConfig = `{
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "removeComments": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}`;
+
 module.exports = {
     index: index,
     app: app,
-    boot: boot
+    boot: boot,
+    tsConfig: tsConfig
 };
