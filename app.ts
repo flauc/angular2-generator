@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const fs = require('fs'),
     simple = require('./sections/create/simple/simple'),
+    library = require('./sections/create/library/library'),
     routing = require('./sections/create/routing/routing'),
     component = require('./sections/single/component'),
     directive = require('./sections/single/directive'),
@@ -28,6 +29,7 @@ function onCall(arguments: string[]): void {
                     console.log('Creating project with routing');
                     break;
                 case 'library':
+                    library.create(location);
                     console.log('Creating npm library project');
                     break;
             }
