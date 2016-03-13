@@ -29,39 +29,58 @@ npm install --save angular2 systemjs es6-promise es6-shim reflect-metadata rxjs 
         <th>Description</th>
     </tr>
     <tr>
-        <td>`genli create simple`</td>
+        <td>genli create simple</td>
         <td>
-            - app.component.ts
-            - index.html
-            - boot.ts
-            - tsconfig.json
+            <ul>
+                <li>app.component.ts</li>
+                <li>index.html</li>
+                <li>boot.ts</li>
+                <li>tsconfig.json</li>
+            </ul>
         </td>
         <td> It's basically a 'hello world' angular 2 application and serves as a starting point for simple applications.</td>
     </tr>
     <tr>
-        <td>`genli create routing`</td>
+        <td>genli create routing</td>
         <td>
-            - app.component.ts
-            - index.html
-            - tsconfig.json
-            - boot.ts
-            - Home [folder]
-                - home.component.ts
-            - About [folder]
-                - about.component.ts
+            <ul>
+                <li>app.component.ts</li>
+                <li>index.html</li>
+                <li>tsconfig.json</li>
+                <li>boot.ts</li>
+                <li>
+                    Home [folder]
+                    <ul>
+                        <li>home.component.ts</li>
+                    </ul>
+                </li>
+                <li>
+                    About [folder]
+                    <ul>
+                        <li>about.component.ts</li>
+                    </ul>    
+                </li>
+            </ul>
         </td>
         <td>This is a simple application with routing and navigation. It has two views Home and About and serves as a starting point for a bit more complex applications that use routing.</td>
     </tr>
     <tr>
-        <td>`genli create library`</td>
+        <td>genli create library</td>
         <td>
-            - components.d.ts
-            - components.js
-            - .npmignore
-            - .gitignore
-            - README.md
-            - src [folder]
-                - app.component.ts
+            <ul>
+                <li>components.d.ts</li>
+                <li>components.js</li>
+                <li>.npmignore</li>
+                <li>.gitignore</li>
+                <li>README.md</li>
+                <li>
+                    src [folder]
+                    <ul>
+                        <li>app.component.ts</li>
+                    </ul>
+                </li>
+              
+            </ul>
         </td>
         <td>This is a starting point for creating npm libraries for Angular2.</td>
     </tr>
