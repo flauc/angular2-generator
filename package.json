@@ -3,11 +3,20 @@
   "version": "0.0.1",
   "description": "Geny is a code generator for angular2 projects.",
   "keywords": [
-    "code",
+    "Library",
+    "code generator",
+    "node console application",
     "generator",
-    "angular2",
-    "generator"
+    "angular2"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flauc/geny.git"
+  },
+  "bugs": {
+    "url": "https://github.com/flauc/geny/issues"
+  },
+  "homepage": "https://github.com/flauc/geny",
   "author": "filip.lauc93@gmail.com",
   "license": "MIT"
 }
