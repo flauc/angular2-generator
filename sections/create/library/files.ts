@@ -30,8 +30,10 @@ export class AppComponent {
 }`;
 
 
-var componentsTs = `export * from './lib/app.component';`;
-var componentsJs = `exports.AppComponent = require('./lib/app.component').AppComponent;`;
+var componentsTs = `// Add public classes here
+export * from './lib/app.component';`;
+var componentsJs = ` // Add public classes here
+exports.AppComponent = require('./lib/app.component').AppComponent;`;
 var npmIgnore = `node_modules
 src
 .npmignore
