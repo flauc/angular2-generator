@@ -1,7 +1,7 @@
 {
-  "name": "geny",
-  "version": "0.0.1",
-  "description": "Geny is a code generator for angular2 projects.",
+  "name": "genli",
+  "version": "0.0.2",
+  "description": "Genli is a code generator for angular2 projects.",
   "keywords": [
     "Library",
     "code generator",
@@ -15,6 +15,10 @@
   },
   "bugs": {
     "url": "https://github.com/flauc/geny/issues"
+  },
+  "main": "app.js",
+  "bin": {
+    "genli": "./app.js"
   },
   "homepage": "https://github.com/flauc/geny",
   "author": "filip.lauc93@gmail.com",
