@@ -1,28 +1,46 @@
 # Genli
 
-Genli is a code generator for Angular 2 applications. It's currently very basic and has only a few commands, but i plan on implementing quit a lot of functionality and add code generation for node applications using typescript.
+Genli is a command line code generator for Angular 2 applications. It generates single files (components, directives..) or entire applications. 
+It's currently very basic and has only a few commands, but i plan on implementing quit a lot of functionality and add code generation for node applications using typescript.
 
 ## Setup
 
 Install globally for easiest use.
 
-```Shell
+```
 npm install -g genli
 ```
 
-## Commands
+## Creating apps
 
-Genli can create simple apps or a single file. The apps or files created use typescript and system.js as the module loader.  
+The apps generated are as light as possible. They serve as a starting point for Angular 2 applications. 
+Unfortunately the generator doesn't create a package.json file and doesn't call npm install. 
+I plan on implementing this functionality later. For now call the following commands after genli.
+```Shell
+npm init 
+... 
+npm install --save angular2 systemjs es6-promise es6-shim reflect-metadata rxjs zone.js
+```
 
-### Creating apps
+##### Simple app 
 
-Currently two apps can be generated:
+To generate the simple app call the following command from your command line: 
+```
+genli create simple
+```
 
-- Simple
-    - app.component.ts
-    - index.html
-    - boot.ts
-    - tsconfig.json
+This is the folder structure that gets created
+- app.component.ts
+- index.html
+- boot.ts
+- tsconfig.json
+
+It's basically a 'hello world' angular 2 application and serves as a starting point for simple applications.
+ 
+##### Routing app 
+
+To generate the routing app call the following command from your command line:
+
 - Routing
     - app.component.ts
     - index.html
@@ -42,12 +60,6 @@ genli create simple
 genli create routing
 ```
        
-Unfortunately genli doesn't generate the package.json file and the required node modules. I plan on implementing this functionality but for now run this command after genli. 
-```Shell
-npm init 
-... 
-npm install --save angular2 systemjs es6-promise es6-shim reflect-metadata rxjs zone.js
-```
         
 ### Creating single files
         
