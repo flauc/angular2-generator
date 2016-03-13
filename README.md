@@ -1,6 +1,6 @@
-# Geny
+# Genli
 
-Geny is a code generator for Angular 2 applications. It's currently very basic and has only a few commands, but i plan on implementing quit a lot of functionality and add code generation for node applications using typescript.
+Genli is a code generator for Angular 2 applications. It's currently very basic and has only a few commands, but i plan on implementing quit a lot of functionality and add code generation for node applications using typescript.
 
 ## Commands
 

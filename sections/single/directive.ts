@@ -11,7 +11,7 @@ module.exports = {
     create: function(location: string, name: string):void {
 
         locationPath = `${location}/${helpers.lower(name)}.directive.ts`;
-        selectorName = `geny-${name}`;
+        selectorName = `genli-${name}`;
         className = `${helpers.capitalize(name)}Directive`;
 
 
