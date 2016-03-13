@@ -6,7 +6,7 @@ Genli is a code generator for Angular 2 applications. It's currently very basic 
 
 Install globally for easiest use.
 
-```
+```Shell
 npm install -g genli
 ```
 
@@ -34,7 +34,7 @@ Currently two apps can be generated:
         - about.component.ts
         
 To generate an app run: 
-```
+```Shell
 genli create [app-name]
 ...
 genli create simple
@@ -43,7 +43,7 @@ genli create routing
 ```
        
 Unfortunately genli doesn't generate the package.json file and the required node modules. I plan on implementing this functionality but for now run this command after genli. 
-```
+```Shell
 npm init 
 ... 
 npm install --save angular2 systemjs es6-promise es6-shim reflect-metadata rxjs zone.js
@@ -60,7 +60,7 @@ Command | Functionality
 -s or -service [fileName] | Create a service
 -p or -pipe [fileName] | Create a pipe
 
-```
+```Shell
 genli -c test 
 ```
 
