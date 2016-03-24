@@ -7,7 +7,8 @@
     "moduleResolution": "node",
     "removeComments": true
   },
-  "exclude": [
-    "node_modules"
+  "files": [
+    "app.ts",
+    "typings/main.d.ts"
   ]
 }
