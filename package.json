@@ -22,5 +22,10 @@
   },
   "homepage": "https://github.com/flauc/genli",
   "author": "filip.lauc93@gmail.com",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "co": "^4.6.0",
+    "co-prompt": "^1.0.0",
+    "commander": "^2.9.0"
+  }
 }
