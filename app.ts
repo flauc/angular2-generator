@@ -1,4 +1,4 @@
-#!/usr/bin/env node --harmony
+#!/usr/bin/env node
 // const fs = require("fs"),
 //     simple = require("./sections/create/simple/simple"),
 //     library = require("./sections/create/library/library"),
@@ -14,72 +14,113 @@
 //     location = process.cwd(),
 //     genyLoc = __dirname;
 
+// import init from  "./sections/init/init"
+// const allArgs = process.argv.slice(2),
+//     bashlocation = process.cwd();
+//
+// function onCall(args: string[]): void {
+//     // Check witch function to call
+//     switch (args[0]) {
+//
+//         case "init":
+//             init(bashlocation);
+//             break;
+//
+//         default:
+//             console.error("Sorry that command is not recognised.");
+//             break;
+//     }
+//
+//     //     case "create":
+//     //
+//     //         switch(arguments[1]) {
+//     //             case "simple":
+//     //                 simple.create(location);
+//     //                 console.log("Creating simple project");
+//     //                 break;
+//     //             case "routing":
+//     //                 routing.create(location);
+//     //                 console.log("Creating project with routing");
+//     //                 break;
+//     //             case "library":
+//     //                 library.create(location);
+//     //                 console.log("Creating npm library project");
+//     //                 break;
+//     //         }
+//     //
+//     //         break;
+//     //
+//     //     case "-c":
+//     //     case "-component":
+//     //         console.log("Creating component");
+//     //         component.create(location, arguments[1]);
+//     //         break;
+//     //
+//     //     case "-d":
+//     //     case "-directive":
+//     //         console.log("Creating directive");
+//     //         directive.create(location, arguments[1]);
+//     //         break;
+//     //
+//     //     case "-s":
+//     //     case "-service":
+//     //         console.log("Creating service");
+//     //         service.create(location, arguments[1]);
+//     //         break;
+//     //
+//     //     case "-p":
+//     //     case "-pipe":
+//     //         console.log("Creating pipe");
+//     //         pipe.create(location, arguments[1]);
+//     //         break;
+//     //
+//     //     default:
+//     //         console.error("Sorry that command is not recognised.");
+//     //         break;
+//     // }
+// }
+//
+// onCall(allArgs);
+
 import init from  "./sections/init/init"
 
+let program = require("commander");
 
-const allArgs = process.argv.slice(2),
-    bashlocation = process.cwd();
+// The init command
+program
+    .version('0.0.1');
 
-function onCall(args: string[]): void {
-    // Check witch function to call
-    switch (args[0]) {
+program
+    .command('setup')
+    .description('run remote setup commands')
+    .action(function() {
+        console.log('setup');
+    });
 
-        case "init":
-            init(bashlocation);
-            break;
+program
+    .command('exec <cmd>')
+    .description('run the given remote command')
+    .action(function(cmd) {
+        console.log('exec "%s"', cmd);
+    });
 
-        default:
-            console.error("Sorry that command is not recognised.");
-            break;
-    }
+program
+    .command('teardown <dir> [otherDirs...]')
+    .description('run teardown commands')
+    .action(function(dir, otherDirs) {
+        console.log('dir "%s"', dir);
+        if (otherDirs) {
+            otherDirs.forEach(function (oDir) {
+                console.log('dir "%s"', oDir);
+            });
+        }
+    });
 
-    //     case "create":
-    //
-    //         switch(arguments[1]) {
-    //             case "simple":
-    //                 simple.create(location);
-    //                 console.log("Creating simple project");
-    //                 break;
-    //             case "routing":
-    //                 routing.create(location);
-    //                 console.log("Creating project with routing");
-    //                 break;
-    //             case "library":
-    //                 library.create(location);
-    //                 console.log("Creating npm library project");
-    //                 break;
-    //         }
-    //
-    //         break;
-    //
-    //     case "-c":
-    //     case "-component":
-    //         console.log("Creating component");
-    //         component.create(location, arguments[1]);
-    //         break;
-    //
-    //     case "-d":
-    //     case "-directive":
-    //         console.log("Creating directive");
-    //         directive.create(location, arguments[1]);
-    //         break;
-    //
-    //     case "-s":
-    //     case "-service":
-    //         console.log("Creating service");
-    //         service.create(location, arguments[1]);
-    //         break;
-    //
-    //     case "-p":
-    //     case "-pipe":
-    //         console.log("Creating pipe");
-    //         pipe.create(location, arguments[1]);
-    //         break;
-    //
-    //     default:
-    //         console.error("Sorry that command is not recognised.");
-    //         break;
-    // }
-}
+program
+    .command('*')
+    .description('deploy the given env')
+    .action(function(env) {
+        console.log('deploying "%s"', env);
+    });
 
-onCall(allArgs);
+program.parse(process.argv);
