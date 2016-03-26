@@ -84,43 +84,16 @@
 
 import init from  "./sections/init/init"
 
-let program = require("commander");
+const program = require("commander");
 
 // The init command
 program
-    .version('0.0.1');
+    .version("0.0.1");
 
 program
-    .command('setup')
-    .description('run remote setup commands')
-    .action(function() {
-        console.log('setup');
-    });
+    .command("init")
+    .description("run remote setup commands")
+    .action((content) => init(content));
 
-program
-    .command('exec <cmd>')
-    .description('run the given remote command')
-    .action(function(cmd) {
-        console.log('exec "%s"', cmd);
-    });
-
-program
-    .command('teardown <dir> [otherDirs...]')
-    .description('run teardown commands')
-    .action(function(dir, otherDirs) {
-        console.log('dir "%s"', dir);
-        if (otherDirs) {
-            otherDirs.forEach(function (oDir) {
-                console.log('dir "%s"', oDir);
-            });
-        }
-    });
-
-program
-    .command('*')
-    .description('deploy the given env')
-    .action(function(env) {
-        console.log('deploying "%s"', env);
-    });
 
 program.parse(process.argv);
