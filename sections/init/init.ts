@@ -21,6 +21,6 @@ export default function init(content: any): void {
 
     }).then((values) => {
         jsonObject = values;
-        createFile("bu", "bla.json");
+        createFile(initPrompt.test, "genli", "json");
     })
 }
