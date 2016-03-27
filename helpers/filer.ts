@@ -1,7 +1,9 @@
 import fs = require("fs")
 
-// The directory where cmd is opened
-let currentLocation = process.cwd();
+const co = require("co"),
+    mkdirp = require("co-mkdirp"),
+    // The directory where cmd is opened
+    currentLocation = process.cwd();
 
 export function createFile(file: string, location: string, type: string): void {
 
@@ -16,5 +18,42 @@ export function createFile(file: string, location: string, type: string): void {
             () => console.log("Created successfully")
         );
     }
+    
+    else {
+
+        co(function* (){
+            let path = "test/test";
+            yield mkdirp(path);
+        }).catch(function(err){
+            console.log(err.stack);
+        })
+    }
+
+    //     co(function *(){
+    //         let loc = `${currentLocation}/`,
+    //             position = 0;
+    //
+    //         for (let i = 0; i < comp.length - 1; i++) {
+    //             loc += `${comp[i]}/`;
+    //             position = i;
+    //
+    //             yield new Promise((resolve, reject) => {
+    //                 fs.access(loc, fs.R_OK, (err) => {
+    //                     if (err) reject(new Error(position.toString()));
+    //                     else resolve()
+    //                 });
+    //             });
+    //         }
+    //
+    //     }).catch(onerror);
+    // }
+    //
+    // function onerror(err) {
+    //     co(function *(){
+    //         let position = Number(err.message);
+    //
+    //         console.log(position);
+    //     })
+    // }
     
 }

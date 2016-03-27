@@ -19,8 +19,8 @@ export default function init(content: any): void {
             "bootLocation": bootLocationPrompt ? bootLocationPrompt : "app/boot.ts"
         };
 
-    }).then((values) => {
+    }).then(values => {
         jsonObject = values;
-        createFile(initPrompt.test, "genli", "json");
+        createFile(initPrompt.test, "neko/genli", "json");
     })
 }

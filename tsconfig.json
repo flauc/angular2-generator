@@ -9,6 +9,7 @@
   },
   "files": [
     "app.ts",
-    "typings/main.d.ts"
+    "typings/main.d.ts",
+    "helpers/filer.ts"
   ]
 }
