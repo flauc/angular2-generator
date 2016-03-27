@@ -20,7 +20,17 @@ export default function init(content: any): void {
         };
 
     }).then(values => {
-        jsonObject = values;
+        jsonObject = {
+            bla: "pero",
+            pweo: 1,
+            ke: {
+                bla: "pero",
+                pero: true,
+                blu: {
+                    "be": "buu"
+                }
+            }
+        };
         createFile(createTemplateStringFromObject(jsonObject), "genli", "json");
     })
 }

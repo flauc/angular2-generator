@@ -1,4 +1,5 @@
 import fs = require("fs")
+import {stringMultiply} from "./helpers"
 
 const co = require("co"),
     mkdirp = require("co-mkdirp"),
@@ -39,25 +40,52 @@ export function createFile(file: string, location: string, type: string): void {
     
 }
 
-export function createTemplateStringFromObject(obj: Object): string  {
+let tabDepth = 0;
 
+export function createTemplateStringFromObject(obj: Object): string  {
+    tabDepth = 0;
+    console.log(tabDepth);
+    return buildObject(obj, true);
+}
+
+// Local functions
+function buildObject(obj: Object, last: boolean): string {
     let keys = Object.keys(obj),
-        base = `{`,
-        tab = `  `;
+        toReturn = `{`,
+        tab = `  `,
+        end;
+
+    // Increase the tab depth every time this function is called
+    tabDepth += 1;
+    end = tabDepth;
 
     keys.forEach((a, idx, array) => {
-        base += `\n${tab}"${a}": ${set(obj[a])}`;
-        if (idx !== array.length - 1) base += `,`
+        toReturn += `\n${stringMultiply(tab, tabDepth)}"${a}": ${set(obj[a])}`;
+        if (idx !== array.length - 1) toReturn += `,`
     });
 
-    // Add the cloasing brackets at the end
-    base += `\n}`;
+    if (last) toReturn += `\n}`;
+    else toReturn += `\n${stringMultiply(tab, tabDepth - 1)}}`;
 
-    // Takes care of proper syntax when adding the value
-    function set(value: any): any {
-        if (typeof value === "string") return `"${value}"`;
-        else return value
+    return toReturn;
+}
+
+// Takes care of proper syntax when adding the value
+function set(value: any): any {
+
+    let toReturn;
+
+    switch (typeof value) {
+        case "string":
+            toReturn = `"${value}"`;
+            break;
+        case "object":
+            toReturn = buildObject(value, false);
+            break;
+        default:
+            toReturn = value;
+            break;
     }
 
-    return base;
+    return toReturn;
 }
