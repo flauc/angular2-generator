@@ -1,5 +1,5 @@
 import {initPrompt} from "./initPrompt";
-import {createFile} from "../../helpers/filer"
+import {createFile, createTemplateStringFromObject} from "../../helpers/filer"
 
 const co = require("co"),
     prompt = require("co-prompt");
@@ -21,6 +21,6 @@ export default function init(content: any): void {
 
     }).then(values => {
         jsonObject = values;
-        createFile(initPrompt.test, "neko/genli", "json");
+        createFile(createTemplateStringFromObject(jsonObject), "genli", "json");
     })
 }

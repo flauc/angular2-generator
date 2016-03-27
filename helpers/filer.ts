@@ -38,3 +38,26 @@ export function createFile(file: string, location: string, type: string): void {
     }
     
 }
+
+export function createTemplateStringFromObject(obj: Object): string  {
+
+    let keys = Object.keys(obj),
+        base = `{`,
+        tab = `  `;
+
+    keys.forEach((a, idx, array) => {
+        base += `\n${tab}"${a}": ${set(obj[a])}`;
+        if (idx !== array.length - 1) base += `,`
+    });
+
+    // Add the cloasing brackets at the end
+    base += `\n}`;
+
+    // Takes care of proper syntax when adding the value
+    function set(value: any): any {
+        if (typeof value === "string") return `"${value}"`;
+        else return value
+    }
+
+    return base;
+}
