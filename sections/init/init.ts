@@ -26,8 +26,22 @@ export default function init(content: any): void {
             ke: {
                 bla: "pero",
                 pero: true,
+                pu: {
+                    pero: 2,
+                    pe1: 3
+                },
                 blu: {
-                    "be": "buu"
+                    "be": "buu",
+                    p1: 24,
+                    p2: 35,
+                    p3: 57,
+                    p5: 412,
+                    p6: {
+                        p3: 321,
+                        p5: 52,
+                        p6: {},
+                        pb: ""
+                    }
                 }
             }
         };

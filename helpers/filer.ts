@@ -44,7 +44,6 @@ let tabDepth = 0;
 
 export function createTemplateStringFromObject(obj: Object): string  {
     tabDepth = 0;
-    console.log(tabDepth);
     return buildObject(obj, true);
 }
 
@@ -53,19 +52,21 @@ function buildObject(obj: Object, last: boolean): string {
     let keys = Object.keys(obj),
         toReturn = `{`,
         tab = `  `,
-        end;
+        end = `}`;
 
     // Increase the tab depth every time this function is called
     tabDepth += 1;
-    end = tabDepth;
+
+    // Set the end of the template string
+    if (last) end = `\n}`;
+    else if (keys.length > 0) end = `\n${stringMultiply(tab, tabDepth - 1)}}`;
 
     keys.forEach((a, idx, array) => {
         toReturn += `\n${stringMultiply(tab, tabDepth)}"${a}": ${set(obj[a])}`;
         if (idx !== array.length - 1) toReturn += `,`
     });
 
-    if (last) toReturn += `\n}`;
-    else toReturn += `\n${stringMultiply(tab, tabDepth - 1)}}`;
+    toReturn += end;
 
     return toReturn;
 }
@@ -81,6 +82,10 @@ function set(value: any): any {
             break;
         case "object":
             toReturn = buildObject(value, false);
+
+            // Reduce the tab depth after the buildObject function was called
+            // so that if we get to this point again the new object is aligned correctly
+            tabDepth -= 1;
             break;
         default:
             toReturn = value;
