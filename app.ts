@@ -83,17 +83,19 @@
 // onCall(allArgs);
 
 import init from  "./sections/init/init"
+import {createComponent} from "./generators/single/component"
 
 const program = require("commander");
 
 // The init command
-program
-    .version("0.0.1");
+program.version("0.0.1");
 
 program
     .command("init")
     .description("run remote setup commands")
     .action((content) => init(content));
 
+program
+    .option("-c, --component", "An integer argument", createComponent);
 
 program.parse(process.argv);

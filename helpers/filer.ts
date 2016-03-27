@@ -6,6 +6,17 @@ const co = require("co"),
     // The directory where cmd is opened
     currentLocation = process.cwd();
 
+/*
+     Function createFile
+    
+     Creates the required file and all the folders if they don't exist already. 
+     The function takes the following inputs: 
+     
+     file: string
+     location: string
+     type: string 
+ */
+
 export function createFile(file: string, location: string, type: string): void {
 
     let comp = location.split("/");
@@ -39,6 +50,13 @@ export function createFile(file: string, location: string, type: string): void {
     }
     
 }
+
+/*
+    Function createTemplateStringFromObject
+    
+    Creates a properly indented template string from the passed object.
+    This function is great for creating JSON files.
+*/
 
 let tabDepth = 0;
 
