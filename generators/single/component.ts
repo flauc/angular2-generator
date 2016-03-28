@@ -1,4 +1,4 @@
-import {capitalize, lower} from "../../helpers/helpers"
+import {capitalize, lower, adjustTemplateString} from "../../helpers/helpers"
 import {createFile} from "../../helpers/filer";
 
 export function createComponent(locationAndName: string, createHtmlTemplate: boolean) {
@@ -40,6 +40,8 @@ export function createComponent(locationAndName: string, createHtmlTemplate: boo
                 export class ${componentName} {
                     constructor() {}
                 }`;
+
+        adjustTemplateString(initialComponent);
 
 
         if (createHtmlTemplate) {

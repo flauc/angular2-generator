@@ -14,3 +14,12 @@ export function stringMultiply(initial: string, times: number): string {
 
     return final;
 }
+
+export function adjustTemplateString(initial: string): string {
+
+    for (let i = 0; i < initial.length; i++) {
+        console.log(initial[i]);
+    }
+
+    return initial.trim();
+}
