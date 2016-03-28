@@ -10,6 +10,7 @@
   "files": [
     "app.ts",
     "typings/main.d.ts",
-    "helpers/filer.ts"
+    "helpers/filer.ts",
+    "generators/single/component.ts"
   ]
 }

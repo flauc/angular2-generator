@@ -3,7 +3,7 @@ export function capitalize(value: string): string {
 }
 
 export function lower(value: string): string {
-    return value.charAt(0).toUpperCase() + value.slice(1)
+    return value.charAt(0).toLowerCase() + value.slice(1)
 }
 
 export function stringMultiply(initial: string, times: number): string {

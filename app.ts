@@ -115,7 +115,7 @@ const args = process.argv.slice(2);
 
 // Handling functions
 function handleErr(err) {
-    console.error(err);
+    console.error("error: ", err);
     process.exit(0)
 }
 
@@ -129,10 +129,21 @@ function onCall(args: string[]): void {
     switch (args[0]) {
 
         case "init":
-            init().then(
-                err => handleErr(err),
-                res => handleRes(res)
-            );
+            init()
+                .catch(err => handleErr(err))
+                .then(val => handleRes(val));
+            break;
+
+        case "c":
+        case "component": 
+            
+            // Check if the user specified that a html template should also be created
+            let createHtmlTemplate = args.indexOf("-t") > -1 || args.indexOf("-template") > -1;
+            
+            createComponent(args[1], createHtmlTemplate)
+                .catch(err => handleErr(err))
+                .then(val => handleRes(val));
+
             break;
 
         default:

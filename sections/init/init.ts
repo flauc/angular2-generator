@@ -6,7 +6,7 @@ const co = require("co"),
 
 export default function init() {
 
-    return new Promise ((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         let jsonObject = {};
 
         // Display the intro text
@@ -23,10 +23,11 @@ export default function init() {
 
         }).then(values => {
             jsonObject = values;
-            createFile(createTemplateStringFromObject(jsonObject), "genli", "json").then(
-                err => reject(err),
-                res => resolve(res)
-            );
+            createFile(createTemplateStringFromObject(jsonObject), "genli", "json")
+                .catch(err => reject(err))
+                .then(val => resolve(val));
+
+            
         })
     });
 }

@@ -43,11 +43,11 @@ export function createFile(file: string, location: string, type: string) {
             })
                 .catch(err => console.log(err.stack))
                 .then(() => {
-                    fs.writeFile(`${currentLocation}/${location}.${type}`, file,
-                        err => reject(err),
-                        () => resolve("Created successfully")
-                    );
-                })
+                        fs.writeFile(`${currentLocation}/${location}.${type}`, file,
+                            (err) => reject(err),
+                            () => resolve("Created successfully")
+                        )
+                    })
         }
     })
 }
