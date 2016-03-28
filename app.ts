@@ -82,20 +82,63 @@
 //
 // onCall(allArgs);
 
+// import init from  "./sections/init/init"
+// import {createComponent} from "./generators/single/component"
+//
+// const program = require("commander");
+//
+// program.version("0.0.1");
+//
+// /*
+//     Init Project
+// */
+// program
+//     .command("init")
+//     .description("run remote setup commands")
+//     .action((content) => init(content));
+//
+// /*
+//     Create Component
+// */
+// program
+//     .command("c")
+//     .option("-t", "--template")
+//     .action(content => createComponent(content));
+//
+// program.parse(process.argv);
+
+
 import init from  "./sections/init/init"
 import {createComponent} from "./generators/single/component"
 
-const program = require("commander");
+const args = process.argv.slice(2);
 
-// The init command
-program.version("0.0.1");
+// Handling functions
+function handleErr(err) {
+    console.error(err);
+    process.exit(0)
+}
 
-program
-    .command("init")
-    .description("run remote setup commands")
-    .action((content) => init(content));
+function handleRes(res) {
+    console.log(res);
+    process.exit(1)
+}
 
-program
-    .option("-c, --component", "An integer argument", createComponent);
+function onCall(args: string[]): void {
+    // Check witch function to call
+    switch (args[0]) {
 
-program.parse(process.argv);
+        case "init":
+            init().then(
+                err => handleErr(err),
+                res => handleRes(res)
+            );
+            break;
+
+        default:
+            console.error("Sorry that command is not recognised.");
+            break;
+    }
+}
+
+onCall(args);

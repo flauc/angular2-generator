@@ -4,23 +4,29 @@ import {createFile, createTemplateStringFromObject} from "../../helpers/filer"
 const co = require("co"),
     prompt = require("co-prompt");
 
-export default function init(content: any): void {
-    let jsonObject = {};
+export default function init() {
 
-    // Display the intro text
-    console.log(initPrompt.intro);
+    return new Promise ((resolve, reject) => {
+        let jsonObject = {};
 
-    co(function *() {
-        let structurePrompt = yield prompt("structure: (standard) "),
-            bootLocationPrompt = yield prompt("bootLocation: (app/boot.ts) ");
+        // Display the intro text
+        console.log(initPrompt.intro);
 
-        return {
-            "structure": structurePrompt ? structurePrompt : "standard",
-            "bootLocation": bootLocationPrompt ? bootLocationPrompt : "app/boot.ts"
-        };
+        co(function *() {
+            let structurePrompt = yield prompt("structure: (standard) "),
+                bootLocationPrompt = yield prompt("bootLocation: (app/boot.ts) ");
 
-    }).then(values => {
-        jsonObject = values;
-        createFile(createTemplateStringFromObject(jsonObject), "genli", "json");
-    })
+            return {
+                "structure": structurePrompt ? structurePrompt : "standard",
+                "bootLocation": bootLocationPrompt ? bootLocationPrompt : "app/boot.ts"
+            };
+
+        }).then(values => {
+            jsonObject = values;
+            createFile(createTemplateStringFromObject(jsonObject), "genli", "json").then(
+                err => reject(err),
+                res => resolve(res)
+            );
+        })
+    });
 }

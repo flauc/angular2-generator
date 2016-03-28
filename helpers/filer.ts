@@ -17,38 +17,39 @@ const co = require("co"),
      type: string 
  */
 
-export function createFile(file: string, location: string, type: string): void {
+export function createFile(file: string, location: string, type: string) {
 
-    let comp = location.split("/");
+    return new Promise((resolve, reject) => {
+        let comp = location.split("/");
 
-    // If the length is 1 then only the one file needs to be created
-    if (comp.length === 1) {
-        fs.writeFile(`${currentLocation}/${location}.${type}`, file,
-            err => console.log(err),
-            () => console.log("Created successfully")
-        );
-    }
-    
-    else {
+        // If the length is 1 then only the one file needs to be created
+        if (comp.length === 1) {
+            fs.writeFile(`${currentLocation}/${location}.${type}`, file,
+                err => reject(err),
+                () => resolve("Created successfully")
+            );
+        }
 
-        let path = `${currentLocation}/`,
-            fileName = `${comp[comp.length - 1]}.${type}`;
+        else {
 
-        // Add all of the other params to the path except for the last one which is the name of the file
-        for (let i = 0; i < comp.length - 1; i++) path += `${comp[i]}/`;
+            let path = `${currentLocation}/`,
+                fileName = `${comp[comp.length - 1]}.${type}`;
 
-        co(function* (){
-            yield mkdirp(path);
-        })
-            .catch(err => console.log(err.stack))
-            .then(() => {
-                fs.writeFile(`${currentLocation}/${location}.${type}`, file,
-                    err => console.log(err),
-                    () => console.log("Created successfully")
-                );
+            // Add all of the other params to the path except for the last one which is the name of the file
+            for (let i = 0; i < comp.length - 1; i++) path += `${comp[i]}/`;
+
+            co(function* (){
+                yield mkdirp(path);
             })
-    }
-    
+                .catch(err => console.log(err.stack))
+                .then(() => {
+                    fs.writeFile(`${currentLocation}/${location}.${type}`, file,
+                        err => reject(err),
+                        () => resolve("Created successfully")
+                    );
+                })
+        }
+    })
 }
 
 /*
