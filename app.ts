@@ -112,6 +112,7 @@ import init from  "./sections/init/init"
 import {createComponent} from "./generators/single/component"
 import {createPipe} from "./generators/single/pipe"
 import {createDirective} from "./generators/single/directive"
+import {createService} from "./generators/single/service"
 
 const args = process.argv.slice(2);
 
@@ -136,6 +137,7 @@ function onCall(args: string[]): void {
                 .then(val => handleRes(val));
             break;
 
+        // Component generation
         case "c":
         case "component": 
             
@@ -148,6 +150,20 @@ function onCall(args: string[]): void {
 
             break;
 
+        // Service generation
+        case "s":
+        case "service":
+
+            // Check if the user specified that the service should be injected in to boot
+            let bootInject = args.indexOf("-i") > -1 || args.indexOf("-inject") > -1;
+
+            createService(args[1], bootInject)
+                .catch(err => handleErr(err))
+                .then(val => handleRes(val));
+
+            break;
+
+        // Pipe generation
         case "p":
         case "pipe":
 
@@ -157,6 +173,7 @@ function onCall(args: string[]): void {
 
             break;
 
+        // Directive generation
         case "d":
         case "directive":
 
@@ -167,7 +184,7 @@ function onCall(args: string[]): void {
             break;
 
         default:
-            console.error("Sorry that command is not recognised.");
+            console.error("Sorry that command isn't recognised.");
             break;
     }
 }
