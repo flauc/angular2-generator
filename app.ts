@@ -111,6 +111,7 @@
 import init from  "./sections/init/init"
 import {createComponent} from "./generators/single/component"
 import {createPipe} from "./generators/single/pipe"
+import {createDirective} from "./generators/single/directive"
 
 const args = process.argv.slice(2);
 
@@ -151,6 +152,15 @@ function onCall(args: string[]): void {
         case "pipe":
 
             createPipe(args[1])
+                .catch(err => handleErr(err))
+                .then(val => handleRes(val));
+
+            break;
+
+        case "d":
+        case "directive":
+
+            createDirective(args[1])
                 .catch(err => handleErr(err))
                 .then(val => handleRes(val));
 
