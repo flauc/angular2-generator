@@ -1,4 +1,4 @@
-import {capitalize, lower, adjustTemplateString} from "../../helpers/helpers"
+import {capitalize, lower, createLocation} from "../../helpers/helpers"
 import {createFile} from "../../helpers/filer";
 
 export function createComponent(locationAndName: string, createHtmlTemplate: boolean) {
@@ -6,42 +6,23 @@ export function createComponent(locationAndName: string, createHtmlTemplate: boo
 
         let split = locationAndName.split("/"),
             selectorName = lower(split[split.length - 1]),
-            fileName = `${selectorName}Component`,
-            componentName = capitalize(fileName),
-            location = "",
-            templateType,
-            templateContent;
+            fileName = `${selectorName}.component`,
+            componentName = `${capitalize(selectorName)}Component`,
+            // Get the full location
+            location = createLocation(split, fileName),
+            templateType = createHtmlTemplate ? "templateUrl" : "template",
+            templateContent = createHtmlTemplate ? `".${location}"` : `"<p>We Work!</p>"`,
 
-        // Create the final location
-        if (split.length > 1) {
-            for (let i = 0; i < split.length - 1; i++) location += `/${split[i]}`;
-            location += `/${fileName}`;
-        }
+            // Create the component template
+            initialComponent = `import {Component} from "angular2/core";    
 
-        else location += fileName;
-
-
-        if (createHtmlTemplate) {
-            templateType = "templateUrl";
-            templateContent = `".${location}"`
-        } else {
-            templateType = "template";
-            templateContent = `"<p>We Work!</p>"`
-        }
-
-        // Create the component template
-        let initialComponent = `
-                import {Component} from "angular2/core";
-    
-                @Component({
-                    selector: "${selectorName}",
-                    ${templateType}: ${templateContent}
-                })
-                export class ${componentName} {
-                    constructor() {}
-                }`;
-
-        adjustTemplateString(initialComponent);
+@Component({
+    selector: "${selectorName}",
+    ${templateType}: ${templateContent}
+})
+export class ${componentName} {
+    constructor() {}
+}`;
 
 
         if (createHtmlTemplate) {

@@ -110,6 +110,7 @@
 
 import init from  "./sections/init/init"
 import {createComponent} from "./generators/single/component"
+import {createPipe} from "./generators/single/pipe"
 
 const args = process.argv.slice(2);
 
@@ -141,6 +142,15 @@ function onCall(args: string[]): void {
             let createHtmlTemplate = args.indexOf("-t") > -1 || args.indexOf("-template") > -1;
             
             createComponent(args[1], createHtmlTemplate)
+                .catch(err => handleErr(err))
+                .then(val => handleRes(val));
+
+            break;
+
+        case "p":
+        case "pipe":
+
+            createPipe(args[1])
                 .catch(err => handleErr(err))
                 .then(val => handleRes(val));
 

@@ -15,11 +15,14 @@ export function stringMultiply(initial: string, times: number): string {
     return final;
 }
 
-export function adjustTemplateString(initial: string): string {
-
-    for (let i = 0; i < initial.length; i++) {
-        console.log(initial[i]);
+export function createLocation(locations: string[], name: string): string {
+    let location = "";
+    if (locations.length > 1) {
+        for (let i = 0; i < locations.length - 1; i++) location += `/${locations[i]}`;
+        location += `/${name}`;
     }
 
-    return initial.trim();
+    else location += name;
+    
+    return location;
 }
