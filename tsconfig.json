@@ -11,6 +11,7 @@
     "app.ts",
     "typings/main.d.ts",
     "helpers/filer.ts",
+    "helpers/helpers.ts",
     "generators/single/component.ts"
   ]
 }

@@ -1,3 +1,6 @@
+import fs = require("fs")
+import path = require("path")
+
 export function capitalize(value: string): string {
     return value.charAt(0).toUpperCase() + value.slice(1)
 }
@@ -25,4 +28,20 @@ export function createLocation(locations: string[], name: string): string {
     else location += name;
     
     return location;
+}
+
+export function readJson() {
+    return new Promise((resolve, reject) => {
+        let currentLocation = process.cwd(),
+            toReturn;
+        
+        fs.readFile(`${currentLocation}/genli.json`, "utf8", (err, data) => {
+            if (err) reject("There is no genli.json file in the root folder.");
+            else {
+                toReturn = JSON.parse(data);
+                toReturn.bootLocation = path.normalize(`${currentLocation}/${toReturn.bootLocation}`);
+                resolve(toReturn);
+            }
+        })
+    })
 }
