@@ -61,7 +61,7 @@ function writeBoot(objAndPos) {
         console.log("got here");
         console.log(objAndPos);
         fs.write(objAndPos.file, "proba", objAndPos.position, "utf8", (err, written, str) => {
-            console.log("here")
+            console.log("here");
             if (err) reject(err);
             else {
                 console.log(written);
