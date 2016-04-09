@@ -1,10 +1,10 @@
-import fs = require("fs")
+import * as fs from "fs"
+import * as co from "co"
+import * as mkdirp from "co-mkdirp"
 import {stringMultiply} from "./helpers"
 
-const co = require("co"),
-    mkdirp = require("co-mkdirp"),
-    // The directory where cmd is opened
-    currentLocation = process.cwd();
+// The directory where cmd is opened
+const currentLocation = process.cwd();
 
 /*
      Function createFile

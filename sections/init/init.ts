@@ -1,8 +1,7 @@
+import * as co from "co"
+import * as prompt from "co-prompt"
 import {initPrompt} from "./initPrompt";
 import {createFile, createTemplateStringFromObject} from "../../helpers/filer"
-
-const co = require("co"),
-    prompt = require("co-prompt");
 
 export default function init() {
 

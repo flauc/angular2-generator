@@ -1,6 +1,6 @@
+import * as fs from "fs"
 import {capitalize, lower, createLocation, readJson} from "../../helpers/helpers"
 import {createFile} from "../../helpers/filer";
-import fs = require("fs")
 
 export function createService(locationAndName: string, bootInject) {
     return new Promise((resolve, reject) => {
