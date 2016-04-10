@@ -21,19 +21,23 @@ export class ${serviceName} {
 
         createFile(initialComponent, location, "ts")
             .catch(err => reject(err))
-            .then(val => afterCreate(val, bootInject));
+            .then(val => afterCreate(val, bootInject, serviceName))
+            .catch(err => reject(err))
+            .then(res => resolve(res));
 
     })
 }
 
-function afterCreate(val, bootInject) {
+function afterCreate(val, bootInject, serviceName) {
     return new Promise((resolve, reject) => {
         if (bootInject) {
             readJson()
                 .catch(err => reject(err))
                 .then(readBoot)
                 .catch(err => reject(err))
-                .then(writeBoot);
+                .then(res => writeBoot(res, serviceName))
+                .catch(err => reject(err))
+                .then(res => resolve(res));
         }
 
         else resolve(val)
@@ -56,18 +60,18 @@ function readBoot(jsonObj) {
 }
 
 // Write in to boot.ts
-function writeBoot(objAndPos) {
+function writeBoot(objAndPos, serviceName) {
     return new Promise((resolve, reject) => {
-        console.log("got here");
-        console.log(objAndPos);
-        fs.write(objAndPos.file, "proba", objAndPos.position, "utf8", (err, written, str) => {
-            console.log("here");
+
+        fs.open(objAndPos.file, "r+", (err, fd) => {
             if (err) reject(err);
             else {
-                console.log(written);
-                console.log(str);
-                resolve(str);
+                fs.write(fd, `\n    ${serviceName}`, objAndPos.position, "utf8", (err, written, str) => {
+                    if (err) reject(err);
+                    else resolve("Service created and injected in to boot successfully.");
+                })
             }
         })
+
     })
 }
