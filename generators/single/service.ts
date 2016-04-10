@@ -3,6 +3,7 @@ import {capitalize, lower, createLocation, readJson} from "../../helpers/helpers
 import {createFile} from "../../helpers/filer";
 
 export function createService(locationAndName: string, bootInject) {
+
     return new Promise((resolve, reject) => {
 
         let split = locationAndName.split("/"),
@@ -18,25 +19,24 @@ export class ${serviceName} {
     constructor() {}
 }`;
 
+        createFile(initialComponent, location, "ts")
+            .catch(err => reject(err))
+            .then(val => afterCreate(val, bootInject));
 
+    })
+}
+
+function afterCreate(val, bootInject) {
+    return new Promise((resolve, reject) => {
         if (bootInject) {
-            createFile(initialComponent, location, "ts")
-                .catch(err => reject(err))
-                .then(readJson)
+            readJson()
                 .catch(err => reject(err))
                 .then(readBoot)
                 .catch(err => reject(err))
                 .then(writeBoot);
-                // .catch(err => reject(err))
-                // .then(val => console.log(val))
         }
 
-        else {
-            createFile(initialComponent, location, "ts")
-                .catch(err => reject(err))
-                .then(val => resolve(val))
-        }
-
+        else resolve(val)
     })
 }
 

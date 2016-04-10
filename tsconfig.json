@@ -12,6 +12,9 @@
     "typings/main.d.ts",
     "helpers/filer.ts",
     "helpers/helpers.ts",
-    "generators/single/component.ts"
+    "generators/single/component.ts",
+    "generators/single/directive.ts",
+    "generators/single/service.ts",
+    "generators/single/pipe.ts"
   ]
 }
