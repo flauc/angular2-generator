@@ -1,3 +1,0 @@
-// genli:bootImport
-
-// genli:bootInject
