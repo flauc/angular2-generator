@@ -1,6 +1,7 @@
 import * as fs from "fs"
+import * as path from "path"
 import {capitalize, lower, createLocation, readJson} from "../../helpers/helpers"
-import {createFile} from "../../helpers/filer";
+import {createFile} from "../../helpers/filer"
 
 export function createService(locationAndName: string, bootInject) {
 
@@ -21,19 +22,19 @@ export class ${serviceName} {
 
         createFile(initialComponent, location, "ts")
             .catch(err => reject(err))
-            .then(val => afterCreate(val, bootInject, serviceName))
+            .then(val => afterCreate(val, bootInject, serviceName, location))
             .catch(err => reject(err))
             .then(res => resolve(res));
 
     })
 }
 
-function afterCreate(val, bootInject, serviceName) {
+function afterCreate(val, bootInject, serviceName, location) {
     return new Promise((resolve, reject) => {
         if (bootInject) {
             readJson()
                 .catch(err => reject(err))
-                .then(res => addToBoot(res, serviceName))
+                .then(res => addToBoot(res, serviceName, location))
                 .catch(err => reject(err))
                 .then(res => resolve(res))
         }
@@ -42,8 +43,8 @@ function afterCreate(val, bootInject, serviceName) {
     })
 }
 
-// Read boot.ts
-function addToBoot(jsonObj, serviceName) {
+// Add the strings to boot.ts
+function addToBoot(jsonObj, serviceName, location) {
     return new Promise((resolve, reject) => {
         fs.readFile(jsonObj.bootLocation, "utf8", (err, data) => {
             if (err) reject(err);
@@ -55,7 +56,7 @@ function addToBoot(jsonObj, serviceName) {
                     let pos1 = match1.index + "// genli:bootImport".length,
                         partOne = [
                             data.slice(0, pos1),
-                            `\nimport {${serviceName}} from ""`,
+                            `\nimport {${serviceName}} from "${path.relative(jsonObj.bootLocation, location).replace(new RegExp("/\\/g"), "/").replace(/\\/g, "/")}"`,
                             data.slice(pos1)
                         ].join(""),
                         pos2 = /\/\/\ genli:bootInject/.exec(partOne).index + "// genli:bootInject".length,
@@ -75,31 +76,5 @@ function addToBoot(jsonObj, serviceName) {
 
             }
         })
-    })
-}
-
-// Write in to boot.ts
-function writeBoot(objAndPos, serviceName) {
-    return new Promise((resolve, reject) => {
-
-        fs.open(objAndPos.file, "r+", (err, fd) => {
-            if (err) reject(err);
-            else {
-
-                let first = `\nimport {${serviceName}} from ""`;
-                console.log(first.length);
-
-                fs.write(fd, first, objAndPos.position[0], "utf8", (err) => {
-                    if (err) reject(err);
-                    else {
-                        // fs.write(fd, `\n    ${serviceName}`, objAndPos.position[1] + first.length, "utf8", (err) => {
-                        //     if (err) reject(err);
-                        //     else resolve("Service created and injected in to boot.ts successfully.")
-                        // })
-                    }
-                })
-            }
-        })
-
     })
 }
