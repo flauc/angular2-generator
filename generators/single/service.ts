@@ -33,11 +33,9 @@ function afterCreate(val, bootInject, serviceName) {
         if (bootInject) {
             readJson()
                 .catch(err => reject(err))
-                .then(readBoot)
+                .then(res => addToBoot(res, serviceName))
                 .catch(err => reject(err))
-                .then(res => writeBoot(res, serviceName))
-                .catch(err => reject(err))
-                .then(res => resolve(res));
+                .then(res => resolve(res))
         }
 
         else resolve(val)
@@ -45,15 +43,36 @@ function afterCreate(val, bootInject, serviceName) {
 }
 
 // Read boot.ts
-function readBoot(jsonObj) {
+function addToBoot(jsonObj, serviceName) {
     return new Promise((resolve, reject) => {
         fs.readFile(jsonObj.bootLocation, "utf8", (err, data) => {
             if (err) reject(err);
             else {
-                let match = /\/\/\ genli:bootInject/.exec(data);
+                let match1 = /\/\/\ genli:bootImport/.exec(data),
+                    match2 = /\/\/\ genli:bootInject/.exec(data);
 
-                if (match) resolve({position: match.index + "// genli:bootInject".length, file: jsonObj.bootLocation});
-                else reject("There is no genli:bootInject location in the boot.ts file.")
+                if (match1 && match2) {
+                    let pos1 = match1.index + "// genli:bootImport".length,
+                        partOne = [
+                            data.slice(0, pos1),
+                            `\nimport {${serviceName}} from ""`,
+                            data.slice(pos1)
+                        ].join(""),
+                        pos2 = /\/\/\ genli:bootInject/.exec(partOne).index + "// genli:bootInject".length,
+                        partTwo = [
+                            partOne.slice(0, pos2),
+                            `\n    ${serviceName}`,
+                            partOne.slice(pos2)
+                        ].join("");
+
+                    fs.writeFile(jsonObj.bootLocation, partTwo, err => {
+                        if (err) reject(err);
+                        else resolve("Service created and injected in to boot.ts successfully.")
+                    })
+                }
+
+                else reject("There is no genli:bootInject or genli:bootImport location in the boot.ts file.")
+
             }
         })
     })
@@ -66,9 +85,18 @@ function writeBoot(objAndPos, serviceName) {
         fs.open(objAndPos.file, "r+", (err, fd) => {
             if (err) reject(err);
             else {
-                fs.write(fd, `\n    ${serviceName}`, objAndPos.position, "utf8", (err, written, str) => {
+
+                let first = `\nimport {${serviceName}} from ""`;
+                console.log(first.length);
+
+                fs.write(fd, first, objAndPos.position[0], "utf8", (err) => {
                     if (err) reject(err);
-                    else resolve("Service created and injected in to boot successfully.");
+                    else {
+                        // fs.write(fd, `\n    ${serviceName}`, objAndPos.position[1] + first.length, "utf8", (err) => {
+                        //     if (err) reject(err);
+                        //     else resolve("Service created and injected in to boot.ts successfully.")
+                        // })
+                    }
                 })
             }
         })
