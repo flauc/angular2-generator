@@ -5,6 +5,7 @@ import {createComponent} from "./generators/single/component"
 import {createPipe} from "./generators/single/pipe"
 import {createDirective} from "./generators/single/directive"
 import {createService} from "./generators/single/service"
+import {readJson} from "./helpers/helpers";
 
 const args = process.argv.slice(2);
 
@@ -20,64 +21,92 @@ function handleRes(res) {
 }
 
 function onCall(args: string[]): void {
-    // Check witch function to call
-    switch (args[0]) {
+    
+    if (args[0] === "init") {
+        init()
+            .catch(err => handleErr(err))
+            .then(val => handleRes(val));
+    }
+    
+    else {
+        
+        // Read the json config file
+        readJson(true).then(
+            res => {
+                
+                let baseLocation = "",
+                    componentLocation = "",
+                    serviceLocation = "",
+                    pipeLocation = "",
+                    directiveLocation = "",
+                    splicedLength = args[1].split("/").length;
+                
+                if (res) {
 
-        case "init":
-            init()
-                .catch(err => handleErr(err))
-                .then(val => handleRes(val));
-            break;
+                    baseLocation = res.appFolder ? `${res.appFolder}/` : baseLocation;
 
-        // Component generation
-        case "c":
-        case "component": 
-            
-            // Check if the user specified that a html template should also be created
-            let createHtmlTemplate = args.indexOf("-t") > -1 || args.indexOf("-template") > -1;
-            
-            createComponent(args[1], createHtmlTemplate)
-                .catch(err => handleErr(err))
-                .then(val => handleRes(val));
+                    if (splicedLength === 1) {
+                        componentLocation = res.componentsFolder ? `${baseLocation + res.componentsFolder}/` : componentLocation;
+                        serviceLocation = res.servicesFolder ? `${baseLocation + res.servicesFolder}/` : serviceLocation;
+                        pipeLocation = res.directivesFolder ? `${baseLocation + res.directivesFolder}/` : pipeLocation;
+                        directiveLocation = res.pipesFolder ? `${baseLocation + res.pipesFolder}/` : directiveLocation;
+                    }
 
-            break;
+                }
+                // Check witch function to call
+                switch (args[0]) {
+                    // Component generation
+                    case "c":
+                    case "component":
 
-        // Service generation
-        case "s":
-        case "service":
+                        // Check if the user specified that a html template should also be created
+                        let createHtmlTemplate = args.indexOf("-t") > -1 || args.indexOf("-template") > -1;
 
-            // Check if the user specified that the service should be injected in to boot
-            let bootInject = args.indexOf("-i") > -1 || args.indexOf("-inject") > -1;
+                        createComponent(`${componentLocation + args[1]}`, createHtmlTemplate)
+                            .catch(err => handleErr(err))
+                            .then(val => handleRes(val));
 
-            createService(args[1], bootInject)
-                .catch(err => handleErr(err))
-                .then(val => handleRes(val));
+                        break;
 
-            break;
+                    // Service generation
+                    case "s":
+                    case "service":
 
-        // Pipe generation
-        case "p":
-        case "pipe":
+                        // Check if the user specified that the service should be injected in to boot
+                        let bootInject = args.indexOf("-i") > -1 || args.indexOf("-inject") > -1;
 
-            createPipe(args[1])
-                .catch(err => handleErr(err))
-                .then(val => handleRes(val));
+                        createService(`${serviceLocation + args[1]}`, bootInject)
+                            .catch(err => handleErr(err))
+                            .then(val => handleRes(val));
 
-            break;
+                        break;
 
-        // Directive generation
-        case "d":
-        case "directive":
+                    // Pipe generation
+                    case "p":
+                    case "pipe":
 
-            createDirective(args[1])
-                .catch(err => handleErr(err))
-                .then(val => handleRes(val));
+                        createPipe(`${pipeLocation + args[1]}`)
+                            .catch(err => handleErr(err))
+                            .then(val => handleRes(val));
 
-            break;
+                        break;
 
-        default:
-            console.error("Sorry that command isn't recognised.");
-            break;
+                    // Directive generation
+                    case "d":
+                    case "directive":
+
+                        createDirective(`${directiveLocation + args[1]}`)
+                            .catch(err => handleErr(err))
+                            .then(val => handleRes(val));
+
+                        break;
+
+                    default:
+                        console.error("Sorry that command isn't recognised.");
+                        break;
+                }
+            }
+        )
     }
 }
 

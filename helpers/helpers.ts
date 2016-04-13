@@ -30,13 +30,13 @@ export function createLocation(locations: string[], name: string): string {
     return location;
 }
 
-export function readJson() {
+export function readJson(alwaysResolve: boolean = false) {
     return new Promise((resolve, reject) => {
         let currentLocation = process.cwd(),
             toReturn;
         
         fs.readFile(`${currentLocation}/genli.json`, "utf8", (err, data) => {
-            if (err) reject("There is no genli.json file in the root folder.");
+            if (err) return alwaysResolve ? resolve(false) : reject("There is no genli.json file in the root folder.");
             else {
                 toReturn = JSON.parse(data);
                 toReturn.bootLocation = path.normalize(`${currentLocation}/${toReturn.bootLocation}`);
