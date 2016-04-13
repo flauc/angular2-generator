@@ -30,7 +30,7 @@ export function createLocation(locations: string[], name: string): string {
     return location;
 }
 
-export function readJson(alwaysResolve: boolean = false) {
+export function readJson(alwaysResolve?: boolean) {
     return new Promise((resolve, reject) => {
         let currentLocation = process.cwd(),
             toReturn;
