@@ -30,8 +30,8 @@ function init() {
                     filer_1.createFile(simple_1.packageJson, "package", "json"),
                     filer_1.createFile(simple_1.typings, "typings", "json"),
                     filer_1.createFile(simple_1.packageJson, "package", "json"),
-                    filer_1.createFile(simple_1.boot, `${values.appFolder}boot`, "ts"),
-                    filer_1.createFile(simple_1.appComponent, `${values.appFolder}app.component`, "ts"),
+                    filer_1.createFile(simple_1.boot, `${values.json.appFolder}/boot`, "ts"),
+                    filer_1.createFile(simple_1.appComponent, `${values.json.appFolder}/app.component`, "ts"),
                 ])
                     .catch(err => reject(err))
                     .then(() => resolve("Application created successfully."));

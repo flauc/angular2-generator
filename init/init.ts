@@ -46,8 +46,8 @@ export default function init() {
                     createFile(packageJson, "package", "json"),
                     createFile(typings, "typings", "json"),
                     createFile(packageJson, "package", "json"),
-                    createFile(boot, `${values.appFolder}boot`, "ts"),
-                    createFile(appComponent, `${values.appFolder}app.component`, "ts"),
+                    createFile(boot, `${values.json.appFolder}/boot`, "ts"),
+                    createFile(appComponent, `${values.json.appFolder}/app.component`, "ts"),
                 ])
                     .catch(err => reject(err))
                     .then(() => resolve("Application created successfully."))
