@@ -1,6 +1,6 @@
 {
   "name": "genli",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Genli is a code generator for angular2 projects.",
   "keywords": [
     "Library",
