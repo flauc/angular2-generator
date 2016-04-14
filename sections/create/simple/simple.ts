@@ -1,5 +1,5 @@
-const fs = require('fs'),
-    files = require('./files');
+import {createFile} from "../../helpers/filer";
+import {index, tsconfig, package, boot, appComponent} from "./files"
 
 module.exports = {
     create: function(location: string):void {
@@ -14,3 +14,8 @@ module.exports = {
         });
     }
 };
+
+export function createSimpleApp() {
+    
+}
+

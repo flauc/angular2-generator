@@ -17,7 +17,12 @@ export default function init() {
                 componentsFolderPrompt = yield prompt("Components Folder: (common/components) "),
                 servicesFolderPrompt = yield prompt("Services Folder: (common/services) "),
                 directivesFolderPrompt = yield prompt("Directives Folder: (common/directives) "),
-                pipesFolderPrompt = yield prompt("Pipes Folder: (common/pipes) ");
+                pipesFolderPrompt = yield prompt("Pipes Folder: (common/pipes) "),
+                generateApp = (yield prompt("Create starter app? (Y/n) ")) || "Y";
+
+            while (!(/^([yn]|(yes)|(no))$/ig.test(generateApp))) generateApp = yield prompt("Create starter app? (Y/n) ");
+
+
 
             return {
                 "appFolder": appFolderPrompt ? appFolderPrompt : "./app",
