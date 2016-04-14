@@ -1,7 +1,8 @@
 import * as co from "co"
 import * as prompt from "co-prompt"
 import {initPrompt} from "./initPrompt";
-import {createFile, createTemplateStringFromObject} from "../../helpers/filer"
+import {createFile, createTemplateStringFromObject} from "../helpers/filer"
+import {index, tsconfig, packageJson, boot, appComponent, typings} from "./apps/simple"
 
 export default function init() {
 
@@ -12,7 +13,7 @@ export default function init() {
         console.log(initPrompt.intro);
 
         co(function *() {
-            let appFolderPrompt = yield prompt("App Folder: (./app) "),
+            let appFolderPrompt = yield prompt("App Folder: (app) "),
                 bootLocationPrompt = yield prompt("Location of bootstrap file: (boot.ts) "),
                 componentsFolderPrompt = yield prompt("Components Folder: (common/components) "),
                 servicesFolderPrompt = yield prompt("Services Folder: (common/services) "),
@@ -25,7 +26,7 @@ export default function init() {
 
 
             return {json: {
-                appFolder: appFolderPrompt ? appFolderPrompt : "./app",
+                appFolder: appFolderPrompt ? appFolderPrompt : "app",
                 bootLocation: bootLocationPrompt ? bootLocationPrompt : "boot.ts",
                 componentsFolder: componentsFolderPrompt ? componentsFolderPrompt : "common/components",
                 servicesFolder: servicesFolderPrompt ? servicesFolderPrompt : "common/services",
@@ -40,14 +41,22 @@ export default function init() {
             
             if (values.generateApp) {
                 Promise.all([
-                    createFile()
+                    createFile(index(values.json.appFolder, values.json.bootLocation), "index", "html"),
+                    createFile(tsconfig, "tsconfig", "json"),
+                    createFile(packageJson, "package", "json"),
+                    createFile(typings, "typings", "json"),
+                    createFile(packageJson, "package", "json"),
+                    createFile(boot, `${values.appFolder}boot`, "ts"),
+                    createFile(appComponent, `${values.appFolder}app.component`, "ts"),
                 ])
+                    .catch(err => reject(err))
+                    .then(() => resolve("Application created successfully."))
             } 
             
             else {
                 createFile(createTemplateStringFromObject(jsonObject), "genli", "json")
                     .catch(err => reject(err))
-                    .then(val => resolve(val));
+                    .then(() => resolve("Config folder created successfully."));
             }
             
         })

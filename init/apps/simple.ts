@@ -67,7 +67,7 @@ export const typings = `{
 ///////////////////////////////////////////////////
 ////////////// package.json //////////////////////
 //////////////////////////////////////////////////
-export const package = `{
+export const packageJson = `{
     "name": "ng2-generator-simple-app",
     "version": "0.0.1",
     "scripts": {

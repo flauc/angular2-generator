@@ -34,6 +34,7 @@ function onCall(args: string[]): void {
             res => {
                 
                 let baseLocation = "",
+                    bootLocation = "",
                     componentLocation = "",
                     serviceLocation = "",
                     pipeLocation = "",
@@ -43,6 +44,7 @@ function onCall(args: string[]): void {
                 if (res) {
 
                     baseLocation = res.appFolder ? `${res.appFolder}/` : baseLocation;
+                    bootLocation = baseLocation + res.bootLocation;
 
                     // If only the name of the folder is passed add the file in to the folder specified in the config
                     if (splicedLength === 1) {
@@ -82,8 +84,7 @@ function onCall(args: string[]): void {
 
                         // Check if the user specified that the service should be injected in to boot
                         let bootInject = args.indexOf("-i") > -1 || args.indexOf("-inject") > -1;
-
-                        createService(`${serviceLocation + args[1]}`, bootInject)
+                        createService(`${serviceLocation + args[1]}`, bootInject, bootLocation)
                             .catch(err => handleErr(err))
                             .then(val => handleRes(val));
 

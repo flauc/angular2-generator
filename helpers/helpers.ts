@@ -37,11 +37,7 @@ export function readJson(alwaysResolve?: boolean) {
         
         fs.readFile(`${currentLocation}/genli.json`, "utf8", (err, data) => {
             if (err) return alwaysResolve ? resolve(false) : reject("There is no genli.json file in the root folder.");
-            else {
-                toReturn = JSON.parse(data);
-                toReturn.bootLocation = path.normalize(`${currentLocation}/${toReturn.bootLocation}`);
-                resolve(toReturn);
-            }
+            else resolve(JSON.parse(data))
         })
     })
 }
