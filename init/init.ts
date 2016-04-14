@@ -50,7 +50,10 @@ export default function init() {
                     createFile(appComponent, `${values.json.appFolder}/app.component`, "ts"),
                 ])
                     .catch(err => reject(err))
-                    .then(() => resolve("Application created successfully."))
+                    .then(() => {
+                        console.log("Application created. Attempting to run scripts now.");
+                        resolve()
+                    })
             } 
             
             else {

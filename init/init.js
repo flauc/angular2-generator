@@ -34,7 +34,10 @@ function init() {
                     filer_1.createFile(simple_1.appComponent, `${values.json.appFolder}/app.component`, "ts"),
                 ])
                     .catch(err => reject(err))
-                    .then(() => resolve("Application created successfully."));
+                    .then(() => {
+                    console.log("Application created. Attempting to run scripts now.");
+                    resolve();
+                });
             }
             else {
                 filer_1.createFile(filer_1.createTemplateStringFromObject(jsonObject), "genli", "json")

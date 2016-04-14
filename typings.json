@@ -3,6 +3,7 @@
   "version": false,
   "dependencies": {},
   "ambientDependencies": {
-    "node": "registry:dt/node#4.0.0+20160319033040"
+    "node": "registry:dt/node#4.0.0+20160319033040",
+    "shelljs": "registry:dt/shelljs#0.3.0+20150131233628"
   }
 }

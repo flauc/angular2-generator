@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import init from "./init/init";
+import * as shell from "shelljs"
 import {createComponent} from "./generators/single/component"
 import {createPipe} from "./generators/single/pipe"
 import {createDirective} from "./generators/single/directive"
@@ -24,7 +25,13 @@ function onCall(args: string[]): void {
     if (args[0] === "init") {
         init()
             .catch(err => handleErr(err))
-            .then(val => handleRes(val));
+            .then(() => {
+                shell.exec("npm install", (code, stdout, stderr) => {
+                    console.log('Exit code:', code);
+                    console.log('Program output:', stdout);
+                    console.log('Program stderr:', stderr);
+                })
+            });
     }
     
     else {
