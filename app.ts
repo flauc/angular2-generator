@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-
-import init from  "./sections/init/init"
+import init from "./init/init";
 import {createComponent} from "./generators/single/component"
 import {createPipe} from "./generators/single/pipe"
 import {createDirective} from "./generators/single/directive"

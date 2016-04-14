@@ -24,21 +24,31 @@ export default function init() {
 
 
 
-            return {
-                "appFolder": appFolderPrompt ? appFolderPrompt : "./app",
-                "bootLocation": bootLocationPrompt ? bootLocationPrompt : "boot.ts",
-                "componentsFolder": componentsFolderPrompt ? componentsFolderPrompt : "common/components",
-                "servicesFolder": servicesFolderPrompt ? servicesFolderPrompt : "common/services",
-                "directivesFolder": directivesFolderPrompt ? directivesFolderPrompt : "common/directives",
-                "pipesFolder": pipesFolderPrompt ? pipesFolderPrompt : "common/pipes"
-            };
+            return {json: {
+                appFolder: appFolderPrompt ? appFolderPrompt : "./app",
+                bootLocation: bootLocationPrompt ? bootLocationPrompt : "boot.ts",
+                componentsFolder: componentsFolderPrompt ? componentsFolderPrompt : "common/components",
+                servicesFolder: servicesFolderPrompt ? servicesFolderPrompt : "common/services",
+                directivesFolder: directivesFolderPrompt ? directivesFolderPrompt : "common/directives",
+                pipesFolder: pipesFolderPrompt ? pipesFolderPrompt : "common/pipes"
+            }, 
+                // Check if the value is y or yes
+                generateApp: /^([y]|(yes))$/ig.test(generateApp) };
 
         }).then(values => {
-            jsonObject = values;
-            createFile(createTemplateStringFromObject(jsonObject), "genli", "json")
-                .catch(err => reject(err))
-                .then(val => resolve(val));
-
+            jsonObject = values.json;
+            
+            if (values.generateApp) {
+                Promise.all([
+                    createFile()
+                ])
+            } 
+            
+            else {
+                createFile(createTemplateStringFromObject(jsonObject), "genli", "json")
+                    .catch(err => reject(err))
+                    .then(val => resolve(val));
+            }
             
         })
     });
