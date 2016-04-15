@@ -1,7 +1,7 @@
 {
   "name": "angular2-generator",
   "version": "0.0.1",
-  "description": "Genli is a code generator for angular2 projects.",
+  "description": "angular2-generator is a command line code generator for angular2 projects.",
   "keywords": [
     "Library",
     "code generator",
