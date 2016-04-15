@@ -55,16 +55,16 @@ function onCall(args: string[]): void {
                     if (splicedLength === 1) {
                         componentLocation = res.componentsFolder ? `${baseLocation + res.componentsFolder}/` : componentLocation;
                         serviceLocation = res.servicesFolder ? `${baseLocation + res.servicesFolder}/` : serviceLocation;
-                        pipeLocation = res.directivesFolder ? `${baseLocation + res.directivesFolder}/` : pipeLocation;
-                        directiveLocation = res.pipesFolder ? `${baseLocation + res.pipesFolder}/` : directiveLocation;
+                        directiveLocation = res.directivesFolder ? `${baseLocation + res.directivesFolder}/` : directiveLocation;
+                        pipeLocation = res.pipesFolder ? `${baseLocation + res.pipesFolder}/` : pipeLocation;
                     }
 
                     // If the file has a dept set the base as the starting point
                     else {
                         componentLocation = baseLocation;
                         serviceLocation = baseLocation;
-                        pipeLocation = baseLocation;
                         directiveLocation = baseLocation;
+                        pipeLocation = baseLocation;
                     }
 
                 }
