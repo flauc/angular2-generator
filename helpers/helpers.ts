@@ -35,7 +35,7 @@ export function readJson(alwaysResolve?: boolean) {
         let currentLocation = process.cwd(),
             toReturn;
         
-        fs.readFile(`${currentLocation}/genli.json`, "utf8", (err, data) => {
+        fs.readFile(`${currentLocation}/ng2config.json`, "utf8", (err, data) => {
             if (err) return alwaysResolve ? resolve(false) : reject("There is no genli.json file in the root folder.");
             else resolve(JSON.parse(data))
         })
