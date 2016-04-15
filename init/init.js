@@ -40,9 +40,9 @@ function init() {
                 });
             }
             else {
-                filer_1.createFile(filer_1.createTemplateStringFromObject(jsonObject), "genli", "json")
+                filer_1.createFile(filer_1.createTemplateStringFromObject(jsonObject), "ng2config", "json")
                     .catch(err => reject(err))
-                    .then(() => resolve("Config folder created successfully."));
+                    .then(() => resolve("ng2config.json created successfully."));
             }
         });
     });

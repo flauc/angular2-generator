@@ -57,9 +57,9 @@ export default function init() {
             } 
             
             else {
-                createFile(createTemplateStringFromObject(jsonObject), "genli", "json")
+                createFile(createTemplateStringFromObject(jsonObject), "ng2config", "json")
                     .catch(err => reject(err))
-                    .then(() => resolve("Config folder created successfully."));
+                    .then(() => resolve("ng2config.json created successfully."));
             }
             
         })

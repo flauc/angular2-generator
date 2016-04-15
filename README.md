@@ -12,11 +12,13 @@ npm install -g angular2-generator
 
 ## Init
 
-Run the following command to create an empty starter project for an angular2 application based on the [5 Min Quickstart.](https://angular.io/docs/ts/latest/quickstart.html). The created application uses SystemJs as the module loader.
+Run the following command to create an empty starter project for an angular2 application based on the [5 Min Quickstart.](https://angular.io/docs/ts/latest/quickstart.html) The created application uses SystemJs as the module loader.
 ```
 ng2 init
 ```
 The init command will also generate an ng2config.json file which contains all the necessary configuration for using Angular2 Generator.
+
+ng2config.json values:
 
 Key | Value | Description
 ------------ | ------------- | -------------
