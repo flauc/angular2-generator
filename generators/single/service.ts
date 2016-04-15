@@ -47,21 +47,21 @@ function addToBoot(serviceName, location, bootLocation) {
         fs.readFile(bootLocation, "utf8", (err, data) => {
             if (err) reject(`There was an error opening the boot.ts file. Original error message: \n${err}`);
             else {
-                let match1 = /\/\/\ genli:bootImport/.exec(data),
-                    match2 = /\/\/\ genli:bootInject/.exec(data);
+                let match1 = /\/\/\ ng2:bootImport/.exec(data),
+                    match2 = /\/\/\ ng2:bootInject/.exec(data);
 
                 console.log("boot: ", bootLocation);
                 console.log("a: ", location);
                 console.log("as: ", fixBoot(bootLocation));
 
                 if (match1 && match2) {
-                    let pos1 = match1.index + "// genli:bootImport".length,
+                    let pos1 = match1.index + "// ng2:bootImport".length,
                         partOne = [
                             data.slice(0, pos1),
                             `\nimport {${serviceName}} from "./${path.relative(`${process.cwd()}/${fixBoot(bootLocation)}`, process.cwd() + location).replace(/\\/g, "/")}"`,
                             data.slice(pos1)
                         ].join(""),
-                        pos2 = /\/\/\ genli:bootInject/.exec(partOne).index + "// genli:bootInject".length,
+                        pos2 = /\/\/\ genli:bootInject/.exec(partOne).index + "// ng2:bootInject".length,
                         partTwo = [
                             partOne.slice(0, pos2),
                             `\n    ${serviceName}`,
@@ -74,7 +74,7 @@ function addToBoot(serviceName, location, bootLocation) {
                     })
                 }
 
-                else reject("There is no genli:bootInject or genli:bootImport location in the boot.ts file.")
+                else reject("There is no ng2:bootInject or ng2:bootImport location in the boot.ts file.")
 
             }
         })
