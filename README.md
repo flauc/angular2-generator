@@ -1,104 +1,162 @@
-# Genli
+# Angular2 Generator
 
-Genli is a command line code generator for Angular 2 applications. It generates single files (components, directives..) or entire applications. 
-It's currently very basic and has only a few commands, but i plan on implementing quit a lot of functionality and add code generation for node applications using typescript.
+Angular2 Generator is a command line code generator for Angular 2 applications. It supports initialising a starter application and creating components, directives, services and pipes through the command line.
 
 ## Setup
 
 Install globally for easiest use.
 
 ```
-npm install -g genli
+npm install -g angular2-generator
 ```
 
-## Creating apps
+## Init
 
-The apps generated are as light as possible. They serve as a starting point for Angular 2 applications. 
-Unfortunately the generator doesn't create a package.json file and doesn't call npm install. 
-I plan on implementing this functionality later. For now call the following commands after genli.
-```Shell
-npm init 
-... 
-npm install --save angular2 systemjs es6-promise es6-shim reflect-metadata rxjs zone.js
+Run the following command to create an empty starter project for an angular2 application based on the [5 Min Quickstart.](https://angular.io/docs/ts/latest/quickstart.html). The created application uses SystemJs as the module loader.
 ```
-                        
-<table>
-    <tr>
-        <th>Command</th>
-        <th>Created File Structure</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td>genli create simple</td>
-        <td>
-            <ul>
-                <li>app.component.ts</li>
-                <li>index.html</li>
-                <li>boot.ts</li>
-                <li>tsconfig.json</li>
-            </ul>
-        </td>
-        <td> It's basically a 'hello world' angular 2 application and serves as a starting point for simple applications.</td>
-    </tr>
-    <tr>
-        <td>genli create routing</td>
-        <td>
-            <ul>
-                <li>app.component.ts</li>
-                <li>index.html</li>
-                <li>tsconfig.json</li>
-                <li>boot.ts</li>
-                <li>
-                    Home [folder]
-                    <ul>
-                        <li>home.component.ts</li>
-                    </ul>
-                </li>
-                <li>
-                    About [folder]
-                    <ul>
-                        <li>about.component.ts</li>
-                    </ul>    
-                </li>
-            </ul>
-        </td>
-        <td>This is a simple application with routing and navigation. It has two views Home and About and serves as a starting point for a bit more complex applications that use routing.</td>
-    </tr>
-    <tr>
-        <td>genli create library</td>
-        <td>
-            <ul>
-                <li>components.d.ts</li>
-                <li>components.js</li>
-                <li>.npmignore</li>
-                <li>.gitignore</li>
-                <li>README.md</li>
-                <li>
-                    src [folder]
-                    <ul>
-                        <li>app.component.ts</li>
-                    </ul>
-                </li>
-              
-            </ul>
-        </td>
-        <td>This is a starting point for creating npm libraries for Angular2.</td>
-    </tr>
-</table>                             
-       
-## Creating single files
-        
-This are the files that can be generated currently:        
+ng2 init
+```
+The init command will also generate an ng2config.json file which contains all the necessary configuration for using Angular2 Generator.
 
-Command | Functionality 
------------- | -------------
--c or -component [fileName] | Create a component
--d or -directive [fileName] | Create a directive
--s or -service [fileName] | Create a service
--p or -pipe [fileName] | Create a pipe
+Key | Value | Description
+------------ | ------------- | -------------
+appFolder | String | Route of the angular2 aplication folder with out the leading slash. For example "foo/bar" or "app" is ok but "/app" or "app/" might cause errors.
+bootLocation | String | Path to the file where the application is bootstraped (this is only needed if you want the option of auto injecting services). The path starts from the appFolder route. For example if bootLocation has the value "boot.ts" then angular2-generator will expect to find it at: appFolder/boot.ts
+componentsFolder | String | Location of the folder where all generated components get placed. This route also starts with the appFolder. So for example if componentsFolder has the value "something/components" angular2-generator will generate componets at this location: appFolder/something/components
+servicesFolder | String | Location of the folder where all the generated services get placed. Also starts with the appFolder.
+directivesFolder | String | Location of the folder where all the generated directives get placed. Starts with the appFolder.
+pipesFolder | String | Location of the folder where all the generated pipes get placed. Starts with the appFolder.
+
+## Generating Files
+
+Command | Functionality | Additional Options
+------------ | ------------- | -------------
+c or component [fileName] | Create a component | true
+d or directive [fileName] | Create a directive | false
+s or service [fileName] | Create a service | true
+p or pipe [fileName] | Create a pipe | false
+
+Example command:
 
 ```Shell
-genli -c test 
+ng2 c test
 ```
 
-This command generates: test.component.ts
+When this command runs the file test.component.ts gets created at the location specified in the ng2config.json file or if no location was provided then it gets created in the appFolder of the application or in the root folder if the appFolder was also not provided.
+
+The following is also a valid [fileName] format: "something/foo/bar/test". In this case the file test.component.ts would be created at this location appFolder/something/foo/bar/.
+
+### Component additional option
+
+Option: -t or -template
+
+```
+ng2 c test -t
+```
+Would create the file test.component.ts and the file test.html at the same location
+
+### Service additional option
+
+Option: -i or -inject
+
+To use this option you need to provide a bootLocation in the ng2config.json file and comments specifying inject locations.
+
+boot.ts
+```js
+import {bootstrap}    from 'angular2/platform/browser';
+import {AppComponent} from './app.component';
+// ng2:bootImport
+
+bootstrap(AppComponent, [
+    // ng2:bootInject
+
+]);
+```
+
+The "// ng2:bootImport" comment sets the location of the import that should be injected.
+The "// ng2:bootInject" comment sets the location of the service that should be injected.
+
+Command example
+```Shell
+ng2 s test -i
+```
+
+## Generated files content
+
+###Component
+
+When the following command is called:
+```Shell
+ng2 c test
+```
+```ts
+import {Component} from "angular2/core"
+
+@Component({
+    selector: "test",
+    template: "<p>We Work!</p>"
+})
+export class TestComponent {
+    constructor() {}
+}
+```
+
+###Service
+
+When the following command is called:
+```Shell
+ng2 s test
+```
+```ts
+import {Injectable} from "angular2/core";
+
+@Injectable()
+export class TestService {
+    constructor() {}
+}
+```
+
+###Directive
+
+When the following command is called:
+```Shell
+ng2 d test
+```
+```ts
+import {Directive, Input, ElementRef, TemplateRef, ViewContainerRef} from "angular2/core";
+
+@Directive({ selector: "[test]" })
+export class TestDirective {
+    constructor(
+        private _templateRef: TemplateRef,
+        private _viewContainer: ViewContainerRef,
+        private  _elementRef: ElementRef
+    ) {}
+
+}
+```
+
+###Pipe
+
+When the following command is called:
+```Shell
+ng2 p test
+```
+```ts
+import {Pipe, PipeTransform} from "angular2/core";
+
+/*
+ * Description:
+ *
+ * Usage:
+ *
+ * Example:
+ *
+ */
+@Pipe({name: "test"})
+export class TestPipe implements PipeTransform {
+    transform(value: any, args: string[]): any {
+
+    }
+}
+```

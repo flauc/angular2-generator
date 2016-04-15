@@ -99,8 +99,11 @@ export const packageJson = `{
 //////////////////////////////////////////////////
 export const boot = `import {bootstrap}    from 'angular2/platform/browser';
 import {AppComponent} from './app.component';
+// ng2:bootImport
 
-bootstrap(AppComponent);
+bootstrap(AppComponent, [
+    // ng2:bootInject
+]);
 `;
 ///////////////////////////////////////////////////
 ///////////// app.component.ts ////////////////////

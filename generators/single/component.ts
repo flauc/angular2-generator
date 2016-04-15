@@ -10,8 +10,9 @@ export function createComponent(locationAndName: string, createHtmlTemplate: boo
             componentName = `${capitalize(selectorName)}Component`,
             // Get the full location
             location = createLocation(split, fileName),
+            templateLocation = createLocation(split, selectorName),
             templateType = createHtmlTemplate ? "templateUrl" : "template",
-            templateContent = createHtmlTemplate ? `".${location}"` : `"<p>We Work!</p>"`,
+            templateContent = createHtmlTemplate ? `".${templateLocation}"` : `"<p>We Work!</p>"`,
 
             // Create the component template
             initialComponent = `import {Component} from "angular2/core";    
@@ -28,7 +29,7 @@ export class ${componentName} {
         if (createHtmlTemplate) {
             Promise.all([
                 createFile(initialComponent, location, "ts"),
-                createFile("<p>we work</p>", location, "html")
+                createFile("<p>we work</p>", templateLocation, "html")
             ])
                 .catch(err => reject(err))
                 .then(val => resolve(val[0]))
