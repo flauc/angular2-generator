@@ -69,6 +69,7 @@ export const typings = `{
 //////////////////////////////////////////////////
 export const packageJson = `{
     "name": "ng2-generator-simple-app",
+    "description": "Just a description",
     "version": "0.0.1",
     "scripts": {
         "start": "npm run lite",
@@ -78,7 +79,7 @@ export const packageJson = `{
         "typings": "typings",
         "postinstall": "typings install"
     },
-    "license": "ISC",
+    "license": "MIT",
     "dependencies": {
         "angular2": "2.0.0-beta.15",
         "systemjs": "0.19.26",
@@ -88,7 +89,6 @@ export const packageJson = `{
         "zone.js": "0.6.10"
     },
     "devDependencies": {
-        "concurrently": "^2.0.0",
         "lite-server": "^2.2.0",
         "typescript": "^1.8.10",
         "typings":"^0.7.12"
