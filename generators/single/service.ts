@@ -50,10 +50,6 @@ function addToBoot(serviceName, location, bootLocation) {
                 let match1 = /\/\/\ ng2:bootImport/.exec(data),
                     match2 = /\/\/\ ng2:bootInject/.exec(data);
 
-                console.log("boot: ", bootLocation);
-                console.log("a: ", location);
-                console.log("as: ", fixBoot(bootLocation));
-
                 if (match1 && match2) {
                     let pos1 = match1.index + "// ng2:bootImport".length,
                         partOne = [
@@ -61,7 +57,7 @@ function addToBoot(serviceName, location, bootLocation) {
                             `\nimport {${serviceName}} from "./${path.relative(`${process.cwd()}/${fixBoot(bootLocation)}`, process.cwd() + location).replace(/\\/g, "/")}"`,
                             data.slice(pos1)
                         ].join(""),
-                        pos2 = /\/\/\ genli:bootInject/.exec(partOne).index + "// ng2:bootInject".length,
+                        pos2 = /\/\/\ ng2:bootInject/.exec(partOne).index + "// ng2:bootInject".length,
                         partTwo = [
                             partOne.slice(0, pos2),
                             `\n    ${serviceName}`,
