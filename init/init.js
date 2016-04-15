@@ -25,6 +25,7 @@ function init() {
             jsonObject = values.json;
             if (values.generateApp) {
                 Promise.all([
+                    filer_1.createFile(filer_1.createTemplateStringFromObject(jsonObject), "ng2config", "json"),
                     filer_1.createFile(simple_1.index(values.json.appFolder, values.json.bootLocation), "index", "html"),
                     filer_1.createFile(simple_1.tsconfig, "tsconfig", "json"),
                     filer_1.createFile(simple_1.packageJson, "package", "json"),

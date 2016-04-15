@@ -41,6 +41,7 @@ export default function init() {
             
             if (values.generateApp) {
                 Promise.all([
+                    createFile(createTemplateStringFromObject(jsonObject), "ng2config", "json"),
                     createFile(index(values.json.appFolder, values.json.bootLocation), "index", "html"),
                     createFile(tsconfig, "tsconfig", "json"),
                     createFile(packageJson, "package", "json"),

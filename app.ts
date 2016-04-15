@@ -26,7 +26,9 @@ function onCall(args: string[]): void {
         init()
             .catch(err => handleErr(err))
             .then(() => {
-                shell.exec("npm install")
+                shell.exec("npm install", (data) => {
+                    process.exit(1)
+                })
             });
     }
     

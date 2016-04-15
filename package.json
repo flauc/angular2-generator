@@ -1,6 +1,6 @@
 {
   "name": "angular2-generator",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "angular2-generator is a command line code generator for angular2 projects.",
   "keywords": [
     "Library",
