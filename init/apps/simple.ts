@@ -71,7 +71,7 @@ export const packageJson = `{
     "name": "ng2-generator-simple-app",
     "version": "0.0.1",
     "scripts": {
-        "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\" ",
+        "start": "npm run lite",
         "tsc": "tsc",
         "tsc:w": "tsc -w",
         "lite": "lite-server",
