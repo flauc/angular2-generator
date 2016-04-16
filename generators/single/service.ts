@@ -81,7 +81,6 @@ function fixBoot(loc) {
     let temp = loc.split("/"),
         ac = "";
 
-    console.log(temp);
     for (let i = 0; i < temp.length - 1; i++) ac += temp[i]
 
     return ac;
