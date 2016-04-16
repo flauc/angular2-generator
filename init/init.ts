@@ -53,7 +53,7 @@ export default function init() {
                     .catch(err => reject(err))
                     .then(() => {
                         console.log("Application created. Attempting to run scripts now.");
-                        resolve()
+                        resolve(false)
                     })
             } 
             
