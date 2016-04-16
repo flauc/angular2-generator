@@ -18,6 +18,8 @@ ng2 init
 ```
 The init command will also generate an ng2config.json file which contains all the necessary configuration for using Angular2 Generator.
 
+At the end of the init you will be prompted to create a starting app. If you chose to create one make sure you have typings installed globaly because the script will try to run typings install after executing npm install.
+
 ng2config.json values:
 
 Key | Value | Description
