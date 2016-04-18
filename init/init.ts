@@ -13,13 +13,54 @@ export default function init() {
         console.log(initPrompt.intro);
 
         co(function *() {
-            let appFolderPrompt = yield prompt("App Folder: (app) "),
-                bootLocationPrompt = yield prompt("Location of bootstrap file: (boot.ts) "),
-                componentsFolderPrompt = yield prompt("Components Folder: (common/components) "),
-                servicesFolderPrompt = yield prompt("Services Folder: (common/services) "),
-                directivesFolderPrompt = yield prompt("Directives Folder: (common/directives) "),
-                pipesFolderPrompt = yield prompt("Pipes Folder: (common/pipes) "),
-                generateApp = (yield prompt("Create starter app? (Y/n) ")) || "Y";
+
+            // Match paths of this format: app/path/path
+            let pathValidator = /^(([A-z0-9\-\%]+\/)*[A-z0-9\-\%]+$)/g,
+                pathFileValidator = /^(([A-z0-9\-\%]+\/)*[A-z0-9\-\%]+(.ts)+$)/g,
+
+                appFolderPrompt = yield prompt("App Folder: (app) ");
+
+            while (!pathValidator.test(appFolderPrompt)) {
+                console.log(`\nPlease enter a path matching the following format:\nsomething/fuu/bar\nDon't add a leading or trailing slash to the path.\n`);
+                appFolderPrompt = yield prompt("App Folder: (app) ");
+            }
+
+            let bootLocationPrompt = yield prompt("Location of bootstrap file: (boot.ts) ");
+
+            while (!pathFileValidator.test(bootLocationPrompt)) {
+                console.log(`\nPlease enter a path matching the following format:\nsomething/fuu/bar.ts\nDon't add a leading slash to the path.\n`);
+                bootLocationPrompt = yield prompt("Location of bootstrap file: (boot.ts) ");
+            }
+
+            let componentsFolderPrompt = yield prompt("Components Folder: (common/components) ");
+
+            while (!pathValidator.test(componentsFolderPrompt)) {
+                console.log(`\nPlease enter a path matching the following format:\nsomething/fuu/bar\nDon't add a leading or trailing slash to the path.\n`);
+                componentsFolderPrompt = yield prompt("Components Folder: (common/components) ");
+            }
+
+            let servicesFolderPrompt = yield prompt("Services Folder: (common/services) ");
+
+            while (!pathValidator.test(servicesFolderPrompt)) {
+                console.log(`\nPlease enter a path matching the following format:\nsomething/fuu/bar\nDon't add a leading or trailing slash to the path.\n`);
+                servicesFolderPrompt = yield prompt("Services Folder: (common/services) ");
+            }
+
+            let directivesFolderPrompt = yield prompt("Directives Folder: (common/directives) ");
+
+            while (!pathValidator.test(directivesFolderPrompt)) {
+                console.log(`\nPlease enter a path matching the following format:\nsomething/fuu/bar\nDon't add a leading or trailing slash to the path.\n`);
+                directivesFolderPrompt = yield prompt("Directives Folder: (common/directives) ");
+            }
+
+            let pipesFolderPrompt = yield prompt("Pipes Folder: (common/pipes) ");
+
+            while (!pathValidator.test(pipesFolderPrompt)) {
+                console.log(`\nPlease enter a path matching the following format:\nsomething/fuu/bar\nDon't add a leading or trailing slash to the path.\n`);
+                pipesFolderPrompt = yield prompt("Pipes Folder: (common/pipes) ");
+            }
+
+            let generateApp = (yield prompt("Create starter app? (Y/n) ")) || "Y";
 
             while (!(/^([yn]|(yes)|(no))$/ig.test(generateApp))) generateApp = yield prompt("Create starter app? (Y/n) ");
 
