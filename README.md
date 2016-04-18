@@ -129,6 +129,14 @@ ng2 d test
 ```ts
 import {Directive, Input, ElementRef, TemplateRef, ViewContainerRef} from "angular2/core";
 
+/*
+ * Description:
+ *
+ * Usage:
+ *
+ * Example:
+ *
+ */
 @Directive({ selector: "[test]" })
 export class TestDirective {
     constructor(
