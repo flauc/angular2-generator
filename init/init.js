@@ -9,34 +9,35 @@ function init() {
         let jsonObject = {};
         console.log(initPrompt_1.initPrompt.intro);
         co(function* () {
-            let pathValidator = /^(([A-z0-9\-\%]+\/)*[A-z0-9\-\%]+$)/g, pathFileValidator = /^(([A-z0-9\-\%]+\/)*[A-z0-9\-\%]+(.ts)+$)/g, appFolderPrompt = yield prompt("App Folder: (app) ");
-            while (!pathValidator.test(appFolderPrompt)) {
-                console.log(`\nPlease enter a path matching the following format:\nsomething/fuu/bar\nDon't add a leading or trailing slash to the path.\n`);
+            let pathValidator = /^(([A-z0-9\-\%]+\/)*[A-z0-9\-\%]+$)/g, pathFileValidator = /^(([A-z0-9\-\%]+\/)*[A-z0-9\-\%]+(.ts)+$)/g, introMessage = (format) => `\nPlease enter a path matching the following format:\n${format}\nDon't add a leading or trailing slash to the path.\n`, appFolderPrompt = yield prompt("App Folder: (app) ");
+            while (!pathValidator.test(appFolderPrompt) && appFolderPrompt) {
+                console.log(introMessage("something/foo/bar"));
                 appFolderPrompt = yield prompt("App Folder: (app) ");
             }
             let bootLocationPrompt = yield prompt("Location of bootstrap file: (boot.ts) ");
-            while (!pathFileValidator.test(bootLocationPrompt)) {
-                console.log(`\nPlease enter a path matching the following format:\nsomething/fuu/bar.ts\nDon't add a leading slash to the path.\n`);
+            while (!pathFileValidator.test(bootLocationPrompt) && bootLocationPrompt) {
+                console.log(introMessage("something/foo/bar.ts"));
                 bootLocationPrompt = yield prompt("Location of bootstrap file: (boot.ts) ");
             }
             let componentsFolderPrompt = yield prompt("Components Folder: (common/components) ");
-            while (!pathValidator.test(componentsFolderPrompt)) {
-                console.log(`\nPlease enter a path matching the following format:\nsomething/fuu/bar\nDon't add a leading or trailing slash to the path.\n`);
+            console.log(componentsFolderPrompt);
+            while (!pathValidator.test(componentsFolderPrompt) && componentsFolderPrompt) {
+                console.log(introMessage("something/foo/bar"));
                 componentsFolderPrompt = yield prompt("Components Folder: (common/components) ");
             }
             let servicesFolderPrompt = yield prompt("Services Folder: (common/services) ");
-            while (!pathValidator.test(servicesFolderPrompt)) {
-                console.log(`\nPlease enter a path matching the following format:\nsomething/fuu/bar\nDon't add a leading or trailing slash to the path.\n`);
+            while (!pathValidator.test(servicesFolderPrompt) && servicesFolderPrompt) {
+                console.log(introMessage("something/foo/bar"));
                 servicesFolderPrompt = yield prompt("Services Folder: (common/services) ");
             }
             let directivesFolderPrompt = yield prompt("Directives Folder: (common/directives) ");
-            while (!pathValidator.test(directivesFolderPrompt)) {
-                console.log(`\nPlease enter a path matching the following format:\nsomething/fuu/bar\nDon't add a leading or trailing slash to the path.\n`);
+            while (!pathValidator.test(directivesFolderPrompt) && directivesFolderPrompt) {
+                console.log(introMessage("something/foo/bar"));
                 directivesFolderPrompt = yield prompt("Directives Folder: (common/directives) ");
             }
             let pipesFolderPrompt = yield prompt("Pipes Folder: (common/pipes) ");
-            while (!pathValidator.test(pipesFolderPrompt)) {
-                console.log(`\nPlease enter a path matching the following format:\nsomething/fuu/bar\nDon't add a leading or trailing slash to the path.\n`);
+            while (!pathValidator.test(pipesFolderPrompt) && pipesFolderPrompt) {
+                console.log(introMessage("something/foo/bar"));
                 pipesFolderPrompt = yield prompt("Pipes Folder: (common/pipes) ");
             }
             let generateApp = (yield prompt("Create starter app? (Y/n) ")) || "Y";
