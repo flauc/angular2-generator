@@ -11,7 +11,14 @@ export function createDirective(locationAndName: string) {
             location = createLocation(split, fileName),
 
             initialComponent = `import {Directive, Input, ElementRef, TemplateRef, ViewContainerRef} from "angular2/core";
-
+/*
+ * Description:
+ *
+ * Usage:
+ *
+ * Example:
+ *
+ */
 @Directive({ selector: "[${selectorName}]" })
 export class ${directiveName} {
     constructor(
