@@ -10,7 +10,7 @@ function init() {
         let jsonObject = {};
         console.log(initPrompt_1.initPrompt.intro);
         co(function* () {
-            let pathValidator = /^(([A-z0-9\-\%]+\/)*[A-z0-9\-\%]+$)/g, pathFileValidator = /^(([A-z0-9\-\%]+\/)*[A-z0-9\-\%]+(.ts)+$)/g, ynValidator = /^([yn]|(yes)|(no))$/ig, introMessage = (format) => `\nPlease enter a path matching the following format:\n${format}\nDon't add a leading or trailing slash to the path.\n`, prompts = [
+            let pathValidator = /^(([A-z0-9\-\%]+\/)*[A-z0-9\-\%]+$)/g, pathFileValidator = /^(([A-z0-9\-\%]+\/)*[A-z0-9\-\%]+(.ts)+$)/g, ynValidator = /^([yn]|(yes)|(no))$/ig, introMessage = (format) => `\nPlease enter a path matching the following format: ${chalk.green(format)}\nDon't add a leading or trailing slash to the path.\n`, prompts = [
                 {
                     name: "appFolder",
                     question: "App Folder: (app) ",

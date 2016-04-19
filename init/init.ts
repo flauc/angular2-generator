@@ -21,7 +21,7 @@ export default function init() {
                 pathFileValidator = /^(([A-z0-9\-\%]+\/)*[A-z0-9\-\%]+(.ts)+$)/g,
                 ynValidator = /^([yn]|(yes)|(no))$/ig,
 
-                introMessage = (format) => `\nPlease enter a path matching the following format:\n${format}\nDon't add a leading or trailing slash to the path.\n`,
+                introMessage = (format) => `\nPlease enter a path matching the following format: ${chalk.green(format)}\nDon't add a leading or trailing slash to the path.\n`,
 
             //     appFolderPrompt = yield prompt("App Folder: (app) ");
             //
@@ -89,7 +89,6 @@ export default function init() {
                 ],
 
                 values = {};
-
 
             for (let i = 0; i < prompts.length; i++) {
                 values[prompts[i].name] = (yield prompt(prompts[i].question)) || prompts[i].value;
