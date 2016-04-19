@@ -1,5 +1,6 @@
 import * as co from "co"
 import * as prompt from "co-prompt"
+import * as chalk from "chalk"
 import {initPrompt} from "./initPrompt";
 import {createFile, createTemplateStringFromObject} from "../helpers/filer"
 import {index, tsconfig, packageJson, boot, appComponent, typings} from "./apps/simple"
@@ -91,13 +92,10 @@ export default function init() {
 
 
             for (let i = 0; i < prompts.length; i++) {
-                values[prompts[i].name] = yield prompt(prompts[i].question);
-
-                if (!values[prompts[i].name]) values[prompts[i].name] = prompts[i].value;
-
-                while (prompts[i].validator.test(values[prompts[i].name])) {
-                    if (prompts[i].message) console.log(introMessage(prompts[i].message));
-                    values[prompts[i].name] = yield prompt(prompts[i].question);
+                values[prompts[i].name] = (yield prompt(prompts[i].question)) || prompts[i].value;
+                while (!(prompts[i].validator.test(values[prompts[i].name]))) {
+                    if (prompts[i].message) console.log(chalk.red(introMessage(prompts[i].message)));
+                    values[prompts[i].name] = (yield prompt(prompts[i].question)) || prompts[i].value;
                 }
             }
 
@@ -128,9 +126,9 @@ export default function init() {
             //     pipesFolderPrompt = yield prompt("Pipes Folder: (common/pipes) ");
             // }
 
-            let generateApp = (yield prompt("Create starter app? (Y/n) ")) || "Y";
-
-            while (!(/^([yn]|(yes)|(no))$/ig.test(generateApp))) generateApp = yield prompt("Create starter app? (Y/n) ");
+            // let generateApp = (yield prompt("Create starter app? (Y/n) ")) || "Y";
+            //
+            // while (!(/^([yn]|(yes)|(no))$/ig.test(generateApp))) generateApp = yield prompt("Create starter app? (Y/n) ");
 
 
 

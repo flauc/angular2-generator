@@ -1,6 +1,7 @@
 "use strict";
 const co = require("co");
 const prompt = require("co-prompt");
+const chalk = require("chalk");
 const initPrompt_1 = require("./initPrompt");
 const filer_1 = require("../helpers/filer");
 const simple_1 = require("./apps/simple");
@@ -61,18 +62,13 @@ function init() {
                 }
             ], values = {};
             for (let i = 0; i < prompts.length; i++) {
-                values[prompts[i].name] = yield prompt(prompts[i].question);
-                if (!values[prompts[i].name])
-                    values[prompts[i].name] = prompts[i].value;
-                while (prompts[i].validator.test(values[prompts[i].name])) {
+                values[prompts[i].name] = (yield prompt(prompts[i].question)) || prompts[i].value;
+                while (!(prompts[i].validator.test(values[prompts[i].name]))) {
                     if (prompts[i].message)
-                        console.log(introMessage(prompts[i].message));
-                    values[prompts[i].name] = yield prompt(prompts[i].question);
+                        console.log(chalk.red(introMessage(prompts[i].message)));
+                    values[prompts[i].name] = (yield prompt(prompts[i].question)) || prompts[i].value;
                 }
             }
-            let generateApp = (yield prompt("Create starter app? (Y/n) ")) || "Y";
-            while (!(/^([yn]|(yes)|(no))$/ig.test(generateApp)))
-                generateApp = yield prompt("Create starter app? (Y/n) ");
             return { json: {
                     appFolder: appFolderPrompt ? appFolderPrompt : "app",
                     bootLocation: bootLocationPrompt ? bootLocationPrompt : "boot.ts",

@@ -24,6 +24,7 @@
   "author": "filip.lauc93@gmail.com",
   "license": "MIT",
   "dependencies": {
+    "chalk": "^1.1.3",
     "co": "^4.6.0",
     "co-mkdirp": "^0.1.0",
     "co-prompt": "^1.0.0",
