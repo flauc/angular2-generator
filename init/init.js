@@ -10,7 +10,7 @@ function init() {
         let jsonObject = {};
         console.log(initPrompt_1.initPrompt.intro);
         co(function* () {
-            let pathValidator = /^(([A-z0-9\-\%]+\/)*[A-z0-9\-\%]+$)/g, pathFileValidator = /^(([A-z0-9\-\%]+\/)*[A-z0-9\-\%]+(.ts)+$)/g, ynValidator = /^([yn]|(yes)|(no))$/ig, introMessage = (format) => `\nPlease enter a path matching the following format: ${chalk.green(format)}\nDon't add a leading or trailing slash to the path.\n`, prompts = [
+            let pathValidator = /^(([A-z0-9\-]+\/)*[A-z0-9\-]+$)/g, pathFileValidator = /^(([A-z0-9\-]+\/)*[A-z0-9\-]+(.ts)+$)/g, ynValidator = /^([yn]|(yes)|(no))$/ig, introMessage = (format) => `\nPlease enter a path matching the following format: ${chalk.green(format)}\nDon't add a leading or trailing slash to the path.\n`, prompts = [
                 {
                     name: "appFolder",
                     question: "App Folder: (app) ",
@@ -63,21 +63,23 @@ function init() {
             ], values = {};
             for (let i = 0; i < prompts.length; i++) {
                 values[prompts[i].name] = (yield prompt(prompts[i].question)) || prompts[i].value;
-                while (!(prompts[i].validator.test(values[prompts[i].name]))) {
+                while (values[prompts[i].name].search(prompts[i].validator) === -1) {
                     if (prompts[i].message)
                         console.log(chalk.red(introMessage(prompts[i].message)));
                     values[prompts[i].name] = (yield prompt(prompts[i].question)) || prompts[i].value;
                 }
             }
-            return { json: {
-                    appFolder: appFolderPrompt ? appFolderPrompt : "app",
-                    bootLocation: bootLocationPrompt ? bootLocationPrompt : "boot.ts",
-                    componentsFolder: componentsFolderPrompt ? componentsFolderPrompt : "common/components",
-                    servicesFolder: servicesFolderPrompt ? servicesFolderPrompt : "common/services",
-                    directivesFolder: directivesFolderPrompt ? directivesFolderPrompt : "common/directives",
-                    pipesFolder: pipesFolderPrompt ? pipesFolderPrompt : "common/pipes"
+            return {
+                json: {
+                    appFolder: values.appFolder,
+                    bootLocation: values.bootFile,
+                    componentsFolder: values.componentsFolder,
+                    servicesFolder: values.servicesFolder,
+                    directivesFolder: values.directivesFolder,
+                    pipesFolder: values.pipesFolder
                 },
-                generateApp: /^([y]|(yes))$/ig.test(generateApp) };
+                generateApp: /^(y|(yes))$/ig.test(values.generateApp)
+            };
         }).then(values => {
             jsonObject = values.json;
             if (values.generateApp) {
@@ -93,14 +95,17 @@ function init() {
                 ])
                     .catch(err => reject(err))
                     .then(() => {
-                    console.log("Application created. Attempting to run scripts now.");
+                    console.log(chalk.green(`\nApplication created. Attempting to run scripts now.`));
                     resolve(false);
                 });
             }
             else {
                 filer_1.createFile(filer_1.createTemplateStringFromObject(jsonObject), "ng2config", "json")
                     .catch(err => reject(err))
-                    .then(() => resolve("ng2config.json created successfully."));
+                    .then(() => {
+                    console.log(chalk.green(`\nng2config.json created successfully.`));
+                    resolve(true);
+                });
             }
         });
     });
