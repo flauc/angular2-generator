@@ -23,19 +23,6 @@ export default function init() {
 
                 introMessage = (format) => `\nPlease enter a path matching the following format: ${chalk.green(format)}\nDon't add a leading or trailing slash to the path.\n`,
 
-            //     appFolderPrompt = yield prompt("App Folder: (app) ");
-            //
-            // while (!pathValidator.test(appFolderPrompt) && appFolderPrompt) {
-            //     console.log(introMessage("something/foo/bar"));
-            //     appFolderPrompt = yield prompt("App Folder: (app) ");
-            // }
-            //
-            // let bootLocationPrompt = yield prompt("Location of bootstrap file: (boot.ts) ");
-            // while (!pathFileValidator.test(bootLocationPrompt) && bootLocationPrompt) {
-            //     console.log(introMessage("something/foo/bar.ts"));
-            //     bootLocationPrompt = yield prompt("Location of bootstrap file: (boot.ts) ");
-            // }
-
                 prompts = [
                     {
                         name: "appFolder",
@@ -98,39 +85,6 @@ export default function init() {
                     values[prompts[i].name] = (yield prompt(prompts[i].question)) || prompts[i].value;
                 }
             }
-
-            // let componentsFolderPrompt = yield prompt("Components Folder: (common/components) ");
-            // while (!pathValidator.test(componentsFolderPrompt) && componentsFolderPrompt) {
-            //     console.log(introMessage("something/foo/bar"));
-            //     componentsFolderPrompt = yield prompt("Components Folder: (common/components) ");
-            // }
-            //
-            // let servicesFolderPrompt = yield prompt("Services Folder: (common/services) ");
-            //
-            // while (!pathValidator.test(servicesFolderPrompt) && servicesFolderPrompt) {
-            //     console.log(introMessage("something/foo/bar"));
-            //     servicesFolderPrompt = yield prompt("Services Folder: (common/services) ");
-            // }
-            //
-            // let directivesFolderPrompt = yield prompt("Directives Folder: (common/directives) ");
-            //
-            // while (!pathValidator.test(directivesFolderPrompt) && directivesFolderPrompt) {
-            //     console.log(introMessage("something/foo/bar"));
-            //     directivesFolderPrompt = yield prompt("Directives Folder: (common/directives) ");
-            // }
-            //
-            // let pipesFolderPrompt = yield prompt("Pipes Folder: (common/pipes) ");
-            //
-            // while (!pathValidator.test(pipesFolderPrompt) && pipesFolderPrompt) {
-            //     console.log(introMessage("something/foo/bar"));
-            //     pipesFolderPrompt = yield prompt("Pipes Folder: (common/pipes) ");
-            // }
-
-            // let generateApp = (yield prompt("Create starter app? (Y/n) ")) || "Y";
-            //
-            // while (!(/^([yn]|(yes)|(no))$/ig.test(generateApp))) generateApp = yield prompt("Create starter app? (Y/n) ");
-
-
 
             return {
                 json: {
