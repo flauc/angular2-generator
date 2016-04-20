@@ -86,6 +86,20 @@ export default function init() {
                 }
             }
 
+            values.generateApp =  /^(y|(yes))$/ig.test(values.generateApp);
+
+            if (values.generateApp) {
+
+                let appTypeQuestion = `What kind of starting structure do you want to generate?\n(input the number associated with the app type)\n\n    1. standard\n    2. npm library\n\n (1): `;
+
+                values.appType = (yield prompt(appTypeQuestion)) || "1";
+
+                while (values.appType.search(/^(1|2)$/g) === -1) {
+                    console.log(chalk.red("\nPlease provide a number between 1 and 2\n"));
+                    values.appType = (yield prompt(appTypeQuestion)) || "1";
+                }
+            }
+
             return {
                 json: {
                     appFolder: values.appFolder,
@@ -96,28 +110,41 @@ export default function init() {
                     pipesFolder: values.pipesFolder
                 },
                 // Check if the value is y or yes
-                generateApp: /^(y|(yes))$/ig.test(values.generateApp)
+                generateApp: values.generateApp,
+                appType: values.appType
             };
 
         }).then(values => {
             jsonObject = values.json;
 
             if (values.generateApp) {
-                Promise.all([
-                    createFile(createTemplateStringFromObject(jsonObject), "ng2config", "json"),
-                    createFile(index(values.json.appFolder, values.json.bootLocation), "index", "html"),
-                    createFile(tsconfig, "tsconfig", "json"),
-                    createFile(packageJson, "package", "json"),
-                    createFile(typings, "typings", "json"),
-                    createFile(packageJson, "package", "json"),
-                    createFile(boot, `${values.json.appFolder}/boot`, "ts"),
-                    createFile(appComponent, `${values.json.appFolder}/app.component`, "ts"),
-                ])
-                    .catch(err => reject(err))
+                co(function *() {
+                    let appArray = [];
+
+                    switch (values.appType) {
+                        case "1":
+                            appArray = [
+                                createFile(createTemplateStringFromObject(jsonObject), "ng2config", "json"),
+                                createFile(index(values.json.appFolder, values.json.bootLocation), "index", "html"),
+                                createFile(tsconfig, "tsconfig", "json"),
+                                createFile(packageJson, "package", "json"),
+                                createFile(typings, "typings", "json"),
+                                createFile(packageJson, "package", "json"),
+                                createFile(boot, `${values.json.appFolder}/boot`, "ts"),
+                                createFile(appComponent, `${values.json.appFolder}/app.component`, "ts")
+                            ];
+                            break;
+                        case "2":
+                            break;
+                    }
+
+                    yield appArray
+                })
+                    .catch(err => reject(err.stack))
                     .then(() => {
                         console.log(chalk.green(`\nApplication created. Attempting to run scripts now.`));
                         resolve(false)
-                    })
+                    });
             }
 
             else {
