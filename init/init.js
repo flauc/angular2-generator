@@ -66,14 +66,35 @@ function init() {
             }
             generateApp = /^(y|(yes))$/ig.test(generateApp);
             if (generateApp) {
-                let appTypeQuestion = `What kind of starting structure do you want to generate?\n(input the number associated with the app type)\n\n    1. standard\n    2. npm library\n\n (1): `, appType = (yield prompt(appTypeQuestion)) || "1";
+                let appTypeQuestion = `What kind of starting structure do you want to generate?\n(input the number associated with the app type)\n\n    1 - standard\n    2 - npm library\n\nStructure (1): `, appType = (yield prompt(appTypeQuestion)) || "1", appTypeName, allowedFlagsValidator, allowedFlags = {
+                    "standard": [["t", "tslint"], ["g", "gulpfile"], ["a", "standard api service"], ["r", "basic routing"], ["l", "basic login"], ["s", "basic signup"]],
+                    "npmLibrary": [["t", "tslint"], ["g", "gulpfile"]]
+                };
                 while (appType.search(/^(1|2)$/g) === -1) {
                     console.log(chalk.red("\nPlease provide a number between 1 and 2\n"));
                     appType = (yield prompt(appTypeQuestion)) || "1";
                 }
+                appTypeName = appType === "1" ? "standard" : "npmLibrary";
+                switch (appType) {
+                    case "1":
+                        allowedFlagsValidator = /^(?!.*?(.).*?\1)[tglrsa]*[tglrsa]*$/ig;
+                        break;
+                    case "2":
+                        allowedFlagsValidator = /^(?!.*?(.).*?\1)[tg]*[tg]*$/ig;
+                        break;
+                }
+                let flagsPrompt = `\nProvide the flags of the additional files you would like to generate.\nPossible flags:\n`;
+                allowedFlags[appTypeName].forEach(a => flagsPrompt += `\n    ${a[0]} - ${a[1]}`);
+                console.log(`${flagsPrompt}\n`);
+                let appFlags = (yield prompt("App Flags: ")) || "";
+                while (appFlags.search(allowedFlagsValidator) === -1) {
+                    console.log(chalk.red(`\nInvalid flags provided. Provide each flag only once,\nand only provide the allowed flags for the ${appTypeName} app type.\n`));
+                    appFlags = (yield prompt("App Flags: ")) || "";
+                }
                 toReturn = {
                     generateApp: generateApp,
-                    appType: appType
+                    appType: appType,
+                    appFlags: appFlags
                 };
             }
             else {
