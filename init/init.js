@@ -7,10 +7,9 @@ const filer_1 = require("../helpers/filer");
 const simple_1 = require("./apps/simple");
 function init() {
     return new Promise((resolve, reject) => {
-        let jsonObject = {};
         console.log(initPrompt_1.initPrompt.intro);
         co(function* () {
-            let pathValidator = /^(([A-z0-9\-]+\/)*[A-z0-9\-]+$)/g, pathFileValidator = /^(([A-z0-9\-]+\/)*[A-z0-9\-]+(.ts)+$)/g, ynValidator = /^([yn]|(yes)|(no))$/ig, introMessage = (format) => `\nPlease enter a path matching the following format: ${chalk.green(format)}\nDon't add a leading or trailing slash to the path.\n`, prompts = [
+            let pathValidator = /^(([A-z0-9\-]+\/)*[A-z0-9\-]+$)/g, pathFileValidator = /^(([A-z0-9\-]+\/)*[A-z0-9\-]+(.ts)+$)/g, ynValidator = /^([yn]|(yes)|(no))$/ig, introMessage = (format) => `\nPlease enter a path matching the following format: ${chalk.green(format)}\nDon't add a leading or trailing slash to the path.\n`, toReturn = {}, prompts = [
                 {
                     name: "appFolder",
                     question: "App Folder: (app) ",
@@ -70,6 +69,16 @@ function init() {
                 }
             }
             values.generateApp = /^(y|(yes))$/ig.test(values.generateApp);
+            toReturn.json = {
+                appFolder: values.appFolder,
+                bootLocation: values.bootFile,
+                defaultFolders: {
+                    components: values.componentsFolder,
+                    services: values.servicesFolder,
+                    directives: values.directivesFolder,
+                    pipes: values.pipesFolder
+                }
+            };
             if (values.generateApp) {
                 let appTypeQuestion = `What kind of starting structure do you want to generate?\n(input the number associated with the app type)\n\n    1. standard\n    2. npm library\n\n (1): `;
                 values.appType = (yield prompt(appTypeQuestion)) || "1";
@@ -77,28 +86,18 @@ function init() {
                     console.log(chalk.red("\nPlease provide a number between 1 and 2\n"));
                     values.appType = (yield prompt(appTypeQuestion)) || "1";
                 }
+                toReturn.generateApp = values.generateApp;
+                toReturn.appType = values.appType;
             }
-            return {
-                json: {
-                    appFolder: values.appFolder,
-                    bootLocation: values.bootFile,
-                    componentsFolder: values.componentsFolder,
-                    servicesFolder: values.servicesFolder,
-                    directivesFolder: values.directivesFolder,
-                    pipesFolder: values.pipesFolder
-                },
-                generateApp: values.generateApp,
-                appType: values.appType
-            };
+            return toReturn;
         }).then(values => {
-            jsonObject = values.json;
             if (values.generateApp) {
                 co(function* () {
                     let appArray = [];
-                    switch (values.appType) {
+                    switch (values.json.appType) {
                         case "1":
                             appArray = [
-                                filer_1.createFile(filer_1.createTemplateStringFromObject(jsonObject), "ng2config", "json"),
+                                filer_1.createFile(filer_1.createTemplateStringFromObject(values.json), "ng2config", "json"),
                                 filer_1.createFile(simple_1.index(values.json.appFolder, values.json.bootLocation), "index", "html"),
                                 filer_1.createFile(simple_1.tsconfig, "tsconfig", "json"),
                                 filer_1.createFile(simple_1.packageJson, "package", "json"),
@@ -120,7 +119,7 @@ function init() {
                 });
             }
             else {
-                filer_1.createFile(filer_1.createTemplateStringFromObject(jsonObject), "ng2config", "json")
+                filer_1.createFile(filer_1.createTemplateStringFromObject(values.json), "ng2config", "json")
                     .catch(err => reject(err))
                     .then(() => {
                     console.log(chalk.green(`\nng2config.json created successfully.`));

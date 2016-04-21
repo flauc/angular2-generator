@@ -8,8 +8,6 @@ import {index, tsconfig, packageJson, boot, appComponent, typings} from "./apps/
 export default function init() {
 
     return new Promise((resolve, reject) => {
-        let jsonObject = {};
-
         // Display the intro text
         console.log(initPrompt.intro);
 
@@ -22,6 +20,7 @@ export default function init() {
                 ynValidator = /^([yn]|(yes)|(no))$/ig,
 
                 introMessage = (format) => `\nPlease enter a path matching the following format: ${chalk.green(format)}\nDon't add a leading or trailing slash to the path.\n`,
+                toReturn = {},
 
                 prompts = [
                     {
@@ -86,7 +85,19 @@ export default function init() {
                 }
             }
 
+            // Check if the value is y or yes
             values.generateApp =  /^(y|(yes))$/ig.test(values.generateApp);
+
+            toReturn.json = {
+                appFolder: values.appFolder,
+                bootLocation: values.bootFile,
+                defaultFolders: {
+                    components: values.componentsFolder,
+                    services: values.servicesFolder,
+                    directives: values.directivesFolder,
+                    pipes: values.pipesFolder
+                }
+            };
 
             if (values.generateApp) {
 
@@ -98,33 +109,23 @@ export default function init() {
                     console.log(chalk.red("\nPlease provide a number between 1 and 2\n"));
                     values.appType = (yield prompt(appTypeQuestion)) || "1";
                 }
+
+                toReturn.generateApp = values.generateApp;
+                toReturn.appType = values.appType;
             }
 
-            return {
-                json: {
-                    appFolder: values.appFolder,
-                    bootLocation: values.bootFile,
-                    componentsFolder: values.componentsFolder,
-                    servicesFolder: values.servicesFolder,
-                    directivesFolder: values.directivesFolder,
-                    pipesFolder: values.pipesFolder
-                },
-                // Check if the value is y or yes
-                generateApp: values.generateApp,
-                appType: values.appType
-            };
+            return toReturn;
 
         }).then(values => {
-            jsonObject = values.json;
 
             if (values.generateApp) {
                 co(function *() {
                     let appArray = [];
 
-                    switch (values.appType) {
+                    switch (values.json.appType) {
                         case "1":
                             appArray = [
-                                createFile(createTemplateStringFromObject(jsonObject), "ng2config", "json"),
+                                createFile(createTemplateStringFromObject(values.json), "ng2config", "json"),
                                 createFile(index(values.json.appFolder, values.json.bootLocation), "index", "html"),
                                 createFile(tsconfig, "tsconfig", "json"),
                                 createFile(packageJson, "package", "json"),
@@ -148,7 +149,7 @@ export default function init() {
             }
 
             else {
-                createFile(createTemplateStringFromObject(jsonObject), "ng2config", "json")
+                createFile(createTemplateStringFromObject(values.json), "ng2config", "json")
                     .catch(err => reject(err))
                     .then(() => {
                         console.log(chalk.green(`\nng2config.json created successfully.`));
