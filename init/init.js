@@ -51,24 +51,41 @@ function init() {
                     value: "common/pipes",
                     message: "something/foo/bar",
                     validator: pathValidator
-                },
-                {
-                    name: "generateApp",
-                    question: "Create starter app? (Y/n) ",
-                    value: "Y",
-                    message: null,
-                    validator: ynValidator
                 }
-            ], values = {};
-            for (let i = 0; i < prompts.length; i++) {
-                values[prompts[i].name] = (yield prompt(prompts[i].question)) || prompts[i].value;
-                while (values[prompts[i].name].search(prompts[i].validator) === -1) {
-                    if (prompts[i].message)
-                        console.log(chalk.red(introMessage(prompts[i].message)));
+            ], values = {
+                appFolder: "app",
+                bootFile: "boot.ts",
+                componentsFolder: "common/components",
+                servicesFolder: "common/services",
+                directivesFolder: "common/directives",
+                pipesFolder: "common/pipes"
+            }, generateApp = (yield prompt("Create starter app? (Y/n) ")) || "Y";
+            while (generateApp.search(ynValidator) === -1) {
+                console.log(chalk.red("\nOnly Y,N,yes and no are valid inputs.\n"));
+                generateApp = (yield prompt("Create starter app? (Y/n) ")) || "Y";
+            }
+            generateApp = /^(y|(yes))$/ig.test(generateApp);
+            if (generateApp) {
+                let appTypeQuestion = `What kind of starting structure do you want to generate?\n(input the number associated with the app type)\n\n    1. standard\n    2. npm library\n\n (1): `, appType = (yield prompt(appTypeQuestion)) || "1";
+                while (appType.search(/^(1|2)$/g) === -1) {
+                    console.log(chalk.red("\nPlease provide a number between 1 and 2\n"));
+                    appType = (yield prompt(appTypeQuestion)) || "1";
+                }
+                toReturn = {
+                    generateApp: generateApp,
+                    appType: appType
+                };
+            }
+            else {
+                for (let i = 0; i < prompts.length; i++) {
                     values[prompts[i].name] = (yield prompt(prompts[i].question)) || prompts[i].value;
+                    while (values[prompts[i].name].search(prompts[i].validator) === -1) {
+                        if (prompts[i].message)
+                            console.log(chalk.red(introMessage(prompts[i].message)));
+                        values[prompts[i].name] = (yield prompt(prompts[i].question)) || prompts[i].value;
+                    }
                 }
             }
-            values.generateApp = /^(y|(yes))$/ig.test(values.generateApp);
             toReturn.json = {
                 appFolder: values.appFolder,
                 bootLocation: values.bootFile,
@@ -79,22 +96,12 @@ function init() {
                     pipes: values.pipesFolder
                 }
             };
-            if (values.generateApp) {
-                let appTypeQuestion = `What kind of starting structure do you want to generate?\n(input the number associated with the app type)\n\n    1. standard\n    2. npm library\n\n (1): `;
-                values.appType = (yield prompt(appTypeQuestion)) || "1";
-                while (values.appType.search(/^(1|2)$/g) === -1) {
-                    console.log(chalk.red("\nPlease provide a number between 1 and 2\n"));
-                    values.appType = (yield prompt(appTypeQuestion)) || "1";
-                }
-                toReturn.generateApp = values.generateApp;
-                toReturn.appType = values.appType;
-            }
             return toReturn;
         }).then(values => {
             if (values.generateApp) {
                 co(function* () {
                     let appArray = [];
-                    switch (values.json.appType) {
+                    switch (values.appType) {
                         case "1":
                             appArray = [
                                 filer_1.createFile(filer_1.createTemplateStringFromObject(values.json), "ng2config", "json"),
