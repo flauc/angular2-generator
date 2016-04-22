@@ -5,6 +5,7 @@ const chalk = require("chalk");
 const initPrompt_1 = require("./initPrompt");
 const filer_1 = require("../helpers/filer");
 const simple_1 = require("./apps/simple");
+const flags_1 = require("./flags");
 function init() {
     return new Promise((resolve, reject) => {
         console.log(initPrompt_1.initPrompt.intro);
@@ -121,7 +122,16 @@ function init() {
         }).then(values => {
             if (values.generateApp) {
                 co(function* () {
-                    let appArray = [];
+                    let appArray = [], flagsForType = {
+                        "1": {
+                            t: [filer_1.createFile(flags_1.flags[values.appType][t], "tslint", "json")],
+                            g: [filer_1.createFile(flags_1.flags[values.appType][g], "gulpfile", "js")]
+                        },
+                        "2": {
+                            t: [filer_1.createFile(flags_1.flags[values.appType][t], "tslint", "json")],
+                            g: [filer_1.createFile(flags_1.flags[values.appType][g], "gulpfile", "js")]
+                        }
+                    };
                     switch (values.appType) {
                         case "1":
                             appArray = [
@@ -138,11 +148,8 @@ function init() {
                         case "2":
                             break;
                     }
-                    if (values.appFlags) {
-                        values.appFlags.split("").forEach(a => {
-                            console.log(a);
-                        });
-                    }
+                    if (values.appFlags)
+                        values.appFlags.split("").forEach(a => flagsForType[values.appType][a].forEach(b => appArray.push(b)));
                     yield appArray;
                 })
                     .catch(err => reject(err.stack))

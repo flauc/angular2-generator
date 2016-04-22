@@ -4,6 +4,7 @@ import * as chalk from "chalk"
 import {initPrompt} from "./initPrompt";
 import {createFile, createTemplateStringFromObject} from "../helpers/filer"
 import {index, tsconfig, packageJson, boot, appComponent, typings} from "./apps/simple"
+import {flags} from "./flags"
 
 export default function init() {
 
@@ -162,7 +163,19 @@ export default function init() {
 
             if (values.generateApp) {
                 co(function *() {
-                    let appArray = [];
+                    let appArray = [],
+
+                        // Files per flag
+                        flagsForType = {
+                            "1": {
+                                t: [createFile(flags[values.appType][t], "tslint", "json")],
+                                g: [createFile(flags[values.appType][g], "gulpfile", "js")]
+                            },
+                            "2": {
+                                t: [createFile(flags[values.appType][t], "tslint", "json")],
+                                g: [createFile(flags[values.appType][g], "gulpfile", "js")]
+                            }
+                        };
 
                     switch (values.appType) {
                         case "1":
@@ -181,11 +194,8 @@ export default function init() {
                             break;
                     }
 
-                    if (values.appFlags) {
-                        values.appFlags.split("").forEach(a => {
-                            console.log(a);
-                        })
-                    }
+                    // If flags were provided create the reguired files 
+                    if (values.appFlags) values.appFlags.split("").forEach(a => flagsForType[values.appType][a].forEach(b => appArray.push(b)));
 
                     yield appArray
                 })
