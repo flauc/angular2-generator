@@ -124,12 +124,12 @@ function init() {
                 co(function* () {
                     let appArray = [], flagsForType = {
                         "1": {
-                            t: [filer_1.createFile(flags_1.flags[values.appType][t], "tslint", "json")],
-                            g: [filer_1.createFile(flags_1.flags[values.appType][g], "gulpfile", "js")]
+                            t: [filer_1.createFile(flags_1.flags[values.appType].t, "tslint", "json")],
+                            g: [filer_1.createFile(flags_1.flags[values.appType].g, "gulpfile", "js")]
                         },
                         "2": {
-                            t: [filer_1.createFile(flags_1.flags[values.appType][t], "tslint", "json")],
-                            g: [filer_1.createFile(flags_1.flags[values.appType][g], "gulpfile", "js")]
+                            t: [filer_1.createFile(flags_1.flags[values.appType].t, "tslint", "json")],
+                            g: [filer_1.createFile(flags_1.flags[values.appType].g, "gulpfile", "js")]
                         }
                     };
                     switch (values.appType) {

@@ -168,12 +168,12 @@ export default function init() {
                         // Files per flag
                         flagsForType = {
                             "1": {
-                                t: [createFile(flags[values.appType][t], "tslint", "json")],
-                                g: [createFile(flags[values.appType][g], "gulpfile", "js")]
+                                t: [createFile(flags[values.appType].t, "tslint", "json")],
+                                g: [createFile(flags[values.appType].g, "gulpfile", "js")]
                             },
                             "2": {
-                                t: [createFile(flags[values.appType][t], "tslint", "json")],
-                                g: [createFile(flags[values.appType][g], "gulpfile", "js")]
+                                t: [createFile(flags[values.appType].t, "tslint", "json")],
+                                g: [createFile(flags[values.appType].g, "gulpfile", "js")]
                             }
                         };
 
