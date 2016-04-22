@@ -138,6 +138,11 @@ function init() {
                         case "2":
                             break;
                     }
+                    if (values.appFlags) {
+                        values.appFlags.split("").forEach(a => {
+                            console.log(a);
+                        });
+                    }
                     yield appArray;
                 })
                     .catch(err => reject(err.stack))

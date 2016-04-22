@@ -181,6 +181,12 @@ export default function init() {
                             break;
                     }
 
+                    if (values.appFlags) {
+                        values.appFlags.split("").forEach(a => {
+                            console.log(a);
+                        })
+                    }
+
                     yield appArray
                 })
                     .catch(err => reject(err.stack))
