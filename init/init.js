@@ -5,7 +5,6 @@ const chalk = require("chalk");
 const initPrompt_1 = require("./initPrompt");
 const filer_1 = require("../helpers/filer");
 const simple_1 = require("./apps/simple");
-const flags_1 = require("./flags");
 function init() {
     return new Promise((resolve, reject) => {
         console.log(initPrompt_1.initPrompt.intro);
@@ -82,8 +81,11 @@ function init() {
                     appName = (yield prompt(appNameQuestion)) || "test-app";
                 }
                 toReturn = {
-                    generateApp: generateApp,
-                    appType: appType
+                    json: {
+                        appName: appName,
+                        appType: appTypeName
+                    },
+                    generateApp: generateApp
                 };
             }
             else {
@@ -96,8 +98,6 @@ function init() {
                     }
                 }
             }
-            if (appName)
-                toReturn.json.appName = appName;
             toReturn.json.appFolder = values.appFolder;
             toReturn.json.bootLocation = values.bootFile;
             toReturn.json.defaultFolders = {
@@ -110,30 +110,20 @@ function init() {
         }).then(values => {
             if (values.generateApp) {
                 co(function* () {
-                    let appArray = [], flagsForType = {
-                        "1": {
-                            t: [filer_1.createFile(flags_1.flags[values.appType].t, "tslint", "json")],
-                            g: [filer_1.createFile(flags_1.flags[values.appType].g, "gulpfile", "js")]
-                        },
-                        "2": {
-                            t: [filer_1.createFile(flags_1.flags[values.appType].t, "tslint", "json")],
-                            g: [filer_1.createFile(flags_1.flags[values.appType].g, "gulpfile", "js")]
-                        }
-                    };
-                    switch (values.appType) {
-                        case "1":
+                    let appArray = [];
+                    switch (values.json.appType) {
+                        case "standard":
                             appArray = [
                                 filer_1.createFile(filer_1.createTemplateStringFromObject(values.json), "ng2config", "json"),
-                                filer_1.createFile(simple_1.index(values.json.appFolder, values.json.bootLocation), "index", "html"),
-                                filer_1.createFile(simple_1.tsconfig, "tsconfig", "json"),
-                                filer_1.createFile(simple_1.packageJson, "package", "json"),
-                                filer_1.createFile(simple_1.typings, "typings", "json"),
-                                filer_1.createFile(simple_1.packageJson, "package", "json"),
+                                filer_1.createFile(simple_1.index(values.json.appFolder, values.json.bootLocation, values.json.appName), "index", "html"),
+                                filer_1.createFile(filer_1.createTemplateStringFromObject(simple_1.tsconfig), "tsconfig", "json"),
+                                filer_1.createFile(filer_1.createTemplateStringFromObject(simple_1.packageJson(values.json.appName)), "package", "json"),
+                                filer_1.createFile(filer_1.createTemplateStringFromObject(simple_1.typings), "typings", "json"),
                                 filer_1.createFile(simple_1.boot, `${values.json.appFolder}/boot`, "ts"),
                                 filer_1.createFile(simple_1.appComponent, `${values.json.appFolder}/app.component`, "ts")
                             ];
                             break;
-                        case "2":
+                        case "npm library":
                             break;
                     }
                     if (values.appFlags)

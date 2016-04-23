@@ -139,8 +139,11 @@ export default function init() {
                 // }
 
                 toReturn = {
-                    generateApp: generateApp,
-                    appType: appType
+                    json: {
+                        appName: appName,
+                        appType: appTypeName
+                    },
+                    generateApp: generateApp
                     // appFlags: appFlags
                 }
             }
@@ -156,7 +159,6 @@ export default function init() {
             }
 
 
-            if (appName) toReturn.json.appName = appName;
             toReturn.json.appFolder = values.appFolder;
             toReturn.json.bootLocation = values.bootFile;
             toReturn.json.defaultFolders = {
@@ -165,41 +167,41 @@ export default function init() {
                 directives: values.directivesFolder,
                 pipes: values.pipesFolder
             };
-            
+
             return toReturn;
 
         }).then(values => {
 
             if (values.generateApp) {
                 co(function *() {
-                    let appArray = [],
+                    let appArray = [];
 
+                        // TODO Finish flag implementation
                         // Files per flag
-                        flagsForType = {
-                            "1": {
-                                t: [createFile(flags[values.appType].t, "tslint", "json")],
-                                g: [createFile(flags[values.appType].g, "gulpfile", "js")]
-                            },
-                            "2": {
-                                t: [createFile(flags[values.appType].t, "tslint", "json")],
-                                g: [createFile(flags[values.appType].g, "gulpfile", "js")]
-                            }
-                        };
+                        // flagsForType = {
+                        //     "standard": {
+                        //         t: [createFile(flags[values.json.appType].t, "tslint", "json")],
+                        //         g: [createFile(flags[values.json.appType].g, "gulpfile", "js")]
+                        //     },
+                        //     "npm library": {
+                        //         t: [createFile(flags[values.json.appType].t, "tslint", "json")],
+                        //         g: [createFile(flags[values.json.appType].g, "gulpfile", "js")]
+                        //     }
+                        // };
 
-                    switch (values.appType) {
-                        case "1":
+                    switch (values.json.appType) {
+                        case "standard":
                             appArray = [
                                 createFile(createTemplateStringFromObject(values.json), "ng2config", "json"),
-                                createFile(index(values.json.appFolder, values.json.bootLocation), "index", "html"),
-                                createFile(tsconfig, "tsconfig", "json"),
-                                createFile(packageJson, "package", "json"),
-                                createFile(typings, "typings", "json"),
-                                createFile(packageJson, "package", "json"),
+                                createFile(index(values.json.appFolder, values.json.bootLocation, values.json.appName), "index", "html"),
+                                createFile(createTemplateStringFromObject(tsconfig), "tsconfig", "json"),
+                                createFile(createTemplateStringFromObject(packageJson(values.json.appName)), "package", "json"),
+                                createFile(createTemplateStringFromObject(typings), "typings", "json"),
                                 createFile(boot, `${values.json.appFolder}/boot`, "ts"),
                                 createFile(appComponent, `${values.json.appFolder}/app.component`, "ts")
                             ];
                             break;
-                        case "2":
+                        case "npm library":
                             break;
                     }
 
