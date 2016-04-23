@@ -67,8 +67,9 @@ export const typings = {
 ///////////////////////////////////////////////////
 ////////////// package.json //////////////////////
 //////////////////////////////////////////////////
-export function packageJson(appName) {
-    return {
+export function packageJson(appName, dep?, devDep?) {
+
+    let toReturn = {
         "name": appName,
         "description": "Just a description",
         "version": "0.0.1",
@@ -94,8 +95,13 @@ export function packageJson(appName) {
             "typescript": "^1.8.10",
             "typings": "^0.7.12"
         }
-    }
-};
+    };
+
+    if (dep) dep.forEach(a => toReturn.dependencies[a[0]] = a[1]);
+    if (devDep) devDep.forEach(a => toReturn.devDependencies[a[0]] = a[1]);
+
+    return toReturn
+}
 ///////////////////////////////////////////////////
 ///////////////// boot.ts ////////////////////////
 //////////////////////////////////////////////////
