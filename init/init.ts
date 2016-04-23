@@ -20,8 +20,9 @@ export default function init() {
                 pathFileValidator = /^(([A-z0-9\-]+\/)*[A-z0-9\-]+(.ts)+$)/g,
                 ynValidator = /^([yn]|(yes)|(no))$/ig,
 
+                appName,
+                toReturn,
                 introMessage = (format) => `\nPlease enter a path matching the following format: ${chalk.green(format)}\nDon't add a leading or trailing slash to the path.\n`,
-                toReturn = {},
 
                 prompts = [
                     {
@@ -90,6 +91,7 @@ export default function init() {
 
             if (generateApp) {
                 let appTypeQuestion = `What kind of starting structure do you want to generate?\n(input the number associated with the app type)\n\n    1 - standard\n    2 - npm library\n\nStructure (1): `,
+                    appNameQuestion = `App name: (test-app) `,
                     appType = (yield prompt(appTypeQuestion)) || "1",
                     appTypeName,
                     allowedFlagsValidator,
@@ -105,32 +107,41 @@ export default function init() {
 
                 appTypeName = appType === "1" ? "standard" : "npmLibrary";
 
-                switch (appType) {
-                    case "1":
-                        allowedFlagsValidator = /^(?!.*?(.).*?\1)[tglrsa]*[tglrsa]*$/ig;
-                        break;
-                    case "2":
-                        allowedFlagsValidator = /^(?!.*?(.).*?\1)[tg]*[tg]*$/ig;
-                        break;
+                appName = (yield prompt(appNameQuestion)) || "test-app";
+
+                while (appName.search(/^[a-z-]+$/ig) === -1) {
+                    console.log(chalk.red("\nPlease provide a valid name\n"));
+                    appName = (yield prompt(appNameQuestion)) || "test-app";
                 }
 
-                // Generate the list of flags to display
-                let flagsPrompt = `\nProvide the flags of the additional files you would like to generate.\nPossible flags:\n`;
-                allowedFlags[appTypeName].forEach(a => flagsPrompt += `\n    ${a[0]} - ${a[1]}`);
+                // TODO Finish for later release
+                // switch (appType) {
+                //     case "1":
+                //         allowedFlagsValidator = /^(?!.*?(.).*?\1)[tglrsa]*[tglrsa]*$/ig;
+                //         break;
+                //     case "2":
+                //         allowedFlagsValidator = /^(?!.*?(.).*?\1)[tg]*[tg]*$/ig;
+                //         break;
+                // }
 
-                console.log(`${flagsPrompt}\n`);
 
-                let appFlags = (yield prompt("App Flags: ")) || "";
-
-                while (appFlags.search(allowedFlagsValidator) === -1) {
-                    console.log(chalk.red(`\nInvalid flags provided. Provide each flag only once,\nand only provide the allowed flags for the ${appTypeName} app type.\n`));
-                    appFlags = (yield prompt("App Flags: ")) || "";
-                }
+                // // Generate the list of flags to display
+                // let flagsPrompt = `\nProvide the flags of the additional files you would like to generate.\nPossible flags:\n`;
+                // allowedFlags[appTypeName].forEach(a => flagsPrompt += `\n    ${a[0]} - ${a[1]}`);
+                //
+                // console.log(`${flagsPrompt}\n`);
+                //
+                // let appFlags = (yield prompt("App Flags: ")) || "";
+                //
+                // while (appFlags.search(allowedFlagsValidator) === -1) {
+                //     console.log(chalk.red(`\nInvalid flags provided. Provide each flag only once,\nand only provide the allowed flags for the ${appTypeName} app type.\n`));
+                //     appFlags = (yield prompt("App Flags: ")) || "";
+                // }
 
                 toReturn = {
                     generateApp: generateApp,
-                    appType: appType,
-                    appFlags: appFlags
+                    appType: appType
+                    // appFlags: appFlags
                 }
             }
 
@@ -145,18 +156,16 @@ export default function init() {
             }
 
 
-
-            toReturn.json = {
-                appFolder: values.appFolder,
-                bootLocation: values.bootFile,
-                defaultFolders: {
-                    components: values.componentsFolder,
-                    services: values.servicesFolder,
-                    directives: values.directivesFolder,
-                    pipes: values.pipesFolder
-                }
+            if (appName) toReturn.json.appName = appName;
+            toReturn.json.appFolder = values.appFolder;
+            toReturn.json.bootLocation = values.bootFile;
+            toReturn.json.defaultFolders = {
+                components: values.componentsFolder,
+                services: values.servicesFolder,
+                directives: values.directivesFolder,
+                pipes: values.pipesFolder
             };
-
+            
             return toReturn;
 
         }).then(values => {
