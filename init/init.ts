@@ -109,7 +109,7 @@ export default function init() {
 
                 appName = (yield prompt(appNameQuestion)) || "test-app";
 
-                while (appName.search(/^[a-z-]+$/ig) === -1) {
+                while (appName.search(/^[0-9a-z-]+$/ig) === -1) {
                     console.log(chalk.red("\nPlease provide a valid name\n"));
                     appName = (yield prompt(appNameQuestion)) || "test-app";
                 }
