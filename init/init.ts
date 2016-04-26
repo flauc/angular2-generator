@@ -193,7 +193,7 @@ export default function init() {
                         case "standard":
                             appArray = [
                                 createFile(createTemplateStringFromObject(values.json), "ng2config", "json"),
-                                createFile(index(values.json.appFolder, values.json.bootLocation.slice(0,-3), values.json.appName), "index", "html"),
+                                createFile(index(values.json.appFolder, values.json.bootLocation.slice(0, -3), values.json.appName), "index", "html"),
                                 createFile(createTemplateStringFromObject(tsconfig), "tsconfig", "json"),
                                 createFile(createTemplateStringFromObject(packageJson(values.json.appName)), "package", "json"),
                                 createFile(createTemplateStringFromObject(typings), "typings", "json"),

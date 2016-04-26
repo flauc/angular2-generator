@@ -48,14 +48,14 @@ function onCall(args: string[]): void {
                 if (res) {
 
                     baseLocation = res.appFolder ? `${res.appFolder}/` : baseLocation;
-                    bootLocation = baseLocation + res.defaultFolders.bootLocation;
+                    bootLocation = res.bootLocation ? baseLocation + res.bootLocation : baseLocation;
 
                     // If only the name of the folder is passed add the file in to the folder specified in the config
                     if (splicedLength === 1) {
-                        componentLocation = res.defaultFolders.componentsFolder ? `${baseLocation + res.defaultFolders.componentsFolder}/` : componentLocation;
-                        serviceLocation = res.defaultFolders.servicesFolder ? `${baseLocation + res.defaultFolders.servicesFolder}/` : serviceLocation;
-                        directiveLocation = res.defaultFolders.directivesFolder ? `${baseLocation + res.defaultFolders.directivesFolder}/` : directiveLocation;
-                        pipeLocation = res.defaultFolders.pipesFolder ? `${baseLocation + res.defaultFolders.pipesFolder}/` : pipeLocation;
+                        componentLocation = res.defaultFolders.components ? `${baseLocation + res.defaultFolders.components}/` : componentLocation;
+                        serviceLocation = res.defaultFolders.services ? `${baseLocation + res.defaultFolders.services}/` : serviceLocation;
+                        directiveLocation = res.defaultFolders.directives ? `${baseLocation + res.defaultFolders.directives}/` : directiveLocation;
+                        pipeLocation = res.defaultFolders.pipes ? `${baseLocation + res.defaultFolders.pipes}/` : pipeLocation;
                     }
 
                     // If the file has a dept set the base as the starting point
